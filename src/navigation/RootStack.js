@@ -1,16 +1,18 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { ForgotPassword, Login, Onboarding, Signup } from '../screens';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { AuthStack } from './Stacks';
+import { Text } from 'react-native';
+import HomeTab from './HomeTab';
 
 const Stack = createNativeStackNavigator();
 
-const RootStack = () => {
+const RootStack = ({ routeName }) => {
+
     return (
-        <Stack.Navigator screenOptions={{ headerShown: false }}>
-            <Stack.Screen name="Onboarding" component={Onboarding} />
-            <Stack.Screen name="Login" component={Login} />
-            <Stack.Screen name="Signup" component={Signup} />
-            <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
+        <Stack.Navigator initialRouteName={routeName} screenOptions={{ headerShown: false }}>
+                <Stack.Screen name="AuthStack" component={AuthStack} />
+                <Stack.Screen name="Home" component={HomeTab} />
         </Stack.Navigator>
     );
 }

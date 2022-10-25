@@ -1,6 +1,29 @@
 import Onboarding from "./Onboarding";
-import Login from "./Login";
-import Signup from "./Signup";
-import ForgotPassword from "./ForgotPassword";
+import { 
+    Login, 
+    CreateAccount, 
+    CreateAccountPassword, 
+    VerificationCode, 
+    ForgotPassword, 
+    NewPassword 
+} from "./AuthenticationScreens";
+import Home from "./Home";
+import Favorite from "./Favorite";
+import MyEvents from "./MyEvents";
+import Profile from "./Profile";
+import CreateEvent from "./CreateEvent";
 
-export { Onboarding, Login, Signup, ForgotPassword };
+export { 
+    Onboarding, 
+    Login, 
+    CreateAccount, 
+    CreateAccountPassword, 
+    VerificationCode, 
+    ForgotPassword, 
+    NewPassword, 
+    Home,
+    Favorite,
+    MyEvents,
+    Profile,
+    CreateEvent
+};

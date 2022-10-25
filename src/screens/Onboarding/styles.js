@@ -1,35 +1,30 @@
 import { ScaledSheet } from "react-native-size-matters";
-import { Colors, Fonts } from "../../utils";
+import { colors, typography } from "../../utils";
 
 const styles = ScaledSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.white,
+    backgroundColor: colors.common.white,
   },
-  button: {
-    backgroundColor: Colors.white,
-    width: 60,
-    height: 40,
-    borderRadius: 8,
-    borderWidth: 1,
-    borderColor: Colors.primary,
-    alignSelf: "flex-end",
-    position: "absolute",
-    end: "15@s",
-    top: "15@vs",
-  },
-  title: {
-    fontSize: "12@ms",
-    fontWeight: "700",
-    color: Colors.primary,
-    lineHeight: "23@ms",
+  footerContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    position: 'absolute',
+    bottom: 55.5,
+    start: 20,
+    end: 20,
   },
   dots: {
-    bottom: 200,
+    height: 10,
+    marginBottom: 59,
   },
-  dotsContentContainerStyle: {
-    justifyContent: "center",
-    flex: 1,
+  button: {
+    marginTop: 12,
+    backgroundColor: colors.common.white
+  },
+  buttonText: {
+    ...typography.L.medium,
+    color: colors.common.black,
   },
 });
 

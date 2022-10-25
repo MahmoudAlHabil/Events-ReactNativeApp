@@ -1,27 +1,28 @@
 import React, { useState } from "react";
-import { View, useWindowDimensions, FlatList } from "react-native";
-import { Icons } from "../../utils";
+import { View, useWindowDimensions, FlatList, Text } from "react-native";
 import styles from "./styles";
-import { Button } from "../../components";
-import Dots from "./components/Dots";
-import OnboardingItem from "./components/OnboardingItem";
+import { Dots, OnboardingItem } from "./components";
+import { useNavigation } from "@react-navigation/native";
+import { icons } from "../../utils";
+import { Button } from "../../sharedComponents";
 
 const data = [
   {
     id: 1,
-    imageUrl: Icons.onBoarding1,
-    title1: 'كل مستلزمات الحفلات',
+    imageUrl: icons.onboarding1,
+    title1: 'كل مستلزمات الحفلات والناسبات السعيدة',
     title2: 'والناسبات السعيدة',
   },
   {
     id: 2,
-    imageUrl: Icons.onBoarding2,
-    title1: 'كل مستلزمات الحفلات',
+    imageUrl: icons.onboarding2,
+    title1: 'كل مستلزمات الحفلات والناسبات السعيدة',
     title2: 'والناسبات السعيدة',
   },
 ];
 
-const Onboarding = ({ navigation }) => {
+const Onboarding = () => {
+  const { replace } = useNavigation();
   const { width } = useWindowDimensions();
   const [activeIndex, setActiveIndex] = useState(0);
 
@@ -35,33 +36,38 @@ const Onboarding = ({ navigation }) => {
     <View style={styles.container}>
       <FlatList
         data={data}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item) => item.id.toString()}
         pagingEnabled
         disableIntervalMomentum
         onScroll={handleOnScroll}
         horizontal
         showsHorizontalScrollIndicator={false}
-        renderItem={({ item }) => <OnboardingItem imageUrl={item.imageUrl} title1={item.title1} title2={item.title2} />}
+        renderItem={({ item }) => <OnboardingItem imageUrl={item.imageUrl} title={item.title1}  description={item.description} />}
       />
-      <View style={styles.dots}>
-        <FlatList
-          data={data}
-          keyExtractor={(item) => item.id}
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          scrollEnabled={false}
-          contentContainerStyle={styles.dotsContentContainerStyle}
-          renderItem={({ index }) => (
-            <Dots index={index} activeIndex={activeIndex} />
-          )}
+      <View style={styles.footerContainer}>
+        <View style={styles.dots}>
+          <FlatList
+            data={data}
+            keyExtractor={(item) => item.id.toString()}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            scrollEnabled={false}
+            renderItem={({ index }) => (
+              <Dots index={index} activeIndex={activeIndex} />
+            )}
+          />
+        </View>
+        <Button
+          title="تسجيل الدخول"
+          onPress={() => replace("Login")}
+        />
+        <Button
+          title="إنشاء حساب جديد"
+          onPress={() => replace("CreateAccount")}
+          buttonStyle={styles.button}
+          titleStyle={styles.buttonText}
         />
       </View>
-      <Button
-        title="تخطي"
-        buttonStyle={styles.button}
-        titleStyle={styles.title}
-        onPress={() => navigation.navigate("Login")}
-      />
     </View>
   );
 };

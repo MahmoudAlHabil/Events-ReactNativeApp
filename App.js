@@ -1,7 +1,9 @@
-import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
+import { SafeAreaView, StatusBar, StyleSheet, Text, View } from 'react-native';
 import AppContainer from './src/navigation';
 import SplashScreen from 'react-native-splash-screen'
 import { useEffect } from 'react';
+import './src/API/axiosConfig';
+import { colors } from './src/utils';
 
 export default function App() {
   useEffect(() => {
@@ -11,7 +13,7 @@ export default function App() {
   return (
     <SafeAreaView style={styles.container}>
       <AppContainer />
-
+      <StatusBar barStyle="dark-content" backgroundColor={colors.common.white}/>
     </SafeAreaView>
   );
 }
