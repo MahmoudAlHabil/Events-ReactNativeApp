@@ -5,21 +5,13 @@ const styles = ScaledSheet.create({
     container: {
         flex: 1,
     },
-    action: {
-        flexDirection: "row",
-        marginTop: 31,
-        marginBottom: -19,
-        alignItems: "center",
-        alignSelf: 'flex-start',
-    },
-    actionText: {
-        ...typography.M.regular,
-        color: colors.gray[600],
-    },
     title: {
         ...typography.XL.bold,
         color: colors.gray[800],
         marginTop: 35,
+    },
+    titleWithAction: {
+        marginTop: 16,
     },
     subTitle: {
         ...typography.L.regular,

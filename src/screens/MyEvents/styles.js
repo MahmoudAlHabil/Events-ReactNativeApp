@@ -1,11 +1,32 @@
 import { StyleSheet } from "react-native";
+import { colors, typography } from "../../utils";
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#fff',
+        backgroundColor: colors.common.white,
+        padding: 20,
+        paddingTop: 20,
+        paddingBottom: 60,
+    },
+    header: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
         alignItems: 'center',
-        justifyContent: 'center',
+        marginVertical: 8,
+    },
+    title: {
+        ...typography.S.semibold,
+        color: colors.gray[500],
+        lineHeight: 38,
+    },
+    totalNumber: {
+        color: colors.gray[800],
+    },
+    numberEvents: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
     },
 })
 

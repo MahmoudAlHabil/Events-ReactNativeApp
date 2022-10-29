@@ -2,14 +2,20 @@ import { View, Text } from 'react-native'
 import React, { useState } from 'react'
 import DropDownPicker from 'react-native-dropdown-picker';
 import styles from './styles';
+import { SvgXml } from 'react-native-svg';
 
-const DropDown = ({ label, items, style, placeholder }) => {
+const DropDown = ({ label, items, style, placeholder, labelIcon }) => {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(null);
 
   return (
     <View style={[styles.container, style]}>
-      <Text style={styles.label}>{label}</Text>
+      <View style={styles.labelContainer}>
+        {labelIcon && <View style={styles.labelIcon}>
+          <SvgXml xml={labelIcon} />
+        </View>}
+        {label && <Text style={styles.label}>{label}</Text>}
+      </View>
       <DropDownPicker
         open={open}
         value={value}

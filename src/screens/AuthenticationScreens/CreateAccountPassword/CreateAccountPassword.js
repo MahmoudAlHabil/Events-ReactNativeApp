@@ -31,18 +31,18 @@ const CreateAccountPassword = () => {
             },
         })
             .then(response => {
-                console.log(response.data);
-                alert(response.data.message)
                 if (response.data.status) {
                     setAccessToken(response.data?.data?.token)
                     AsyncStorage.setItem("accessToken", response.data?.data?.token);
                     replace('Home')
                     rest.resetForm()
                     setPassword('')
+                } else {
+                    alert(response.data.message)
                 }
                 // alert('تم انشاء الحساب بنجاح')
             }).catch(error => {
-                console.log({ error });
+                alert(error);
                 // alert('حدث خطأ ما')
             });
         }

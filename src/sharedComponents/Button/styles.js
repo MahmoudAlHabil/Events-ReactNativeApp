@@ -8,7 +8,7 @@ const styles = (width) => ScaledSheet.create({
         width: '100%',
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: colors.primary.dark,
+        backgroundColor: colors.primary.main,
     },
     title: {
         ...typography.L.medium,

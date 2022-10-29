@@ -1,4 +1,4 @@
-import Onboarding from "./Onboarding";
+import Onboarding from "./Onboarding/Onboarding";
 import { 
     Login, 
     CreateAccount, 
@@ -7,11 +7,11 @@ import {
     ForgotPassword, 
     NewPassword 
 } from "./AuthenticationScreens";
-import Home from "./Home";
-import Favorite from "./Favorite";
-import MyEvents from "./MyEvents";
-import Profile from "./Profile";
-import CreateEvent from "./CreateEvent";
+import Home from "./Home/Home";
+import Notifications from "./Notifications/Notifications";
+import MyEvents from "./MyEvents/MyEvents";
+import Profile from "./Profile/Profile";
+import CreateEvent from "./CreateEvent/CreateEvent";
 
 export { 
     Onboarding, 
@@ -22,7 +22,7 @@ export {
     ForgotPassword, 
     NewPassword, 
     Home,
-    Favorite,
+    Notifications,
     MyEvents,
     Profile,
     CreateEvent

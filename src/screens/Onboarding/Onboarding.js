@@ -10,14 +10,12 @@ const data = [
   {
     id: 1,
     imageUrl: icons.onboarding1,
-    title1: 'كل مستلزمات الحفلات والناسبات السعيدة',
-    title2: 'والناسبات السعيدة',
+    title: 'كل مستلزمات الحفلات والمناسبات السعيدة',
   },
   {
     id: 2,
     imageUrl: icons.onboarding2,
-    title1: 'كل مستلزمات الحفلات والناسبات السعيدة',
-    title2: 'والناسبات السعيدة',
+    title: 'كل مستلزمات الحفلات والمناسبات السعيدة',
   },
 ];
 
@@ -42,7 +40,7 @@ const Onboarding = () => {
         onScroll={handleOnScroll}
         horizontal
         showsHorizontalScrollIndicator={false}
-        renderItem={({ item }) => <OnboardingItem imageUrl={item.imageUrl} title={item.title1}  description={item.description} />}
+        renderItem={({ item }) => <OnboardingItem imageUrl={item.imageUrl} title={item.title}  description={item.description} />}
       />
       <View style={styles.footerContainer}>
         <View style={styles.dots}>

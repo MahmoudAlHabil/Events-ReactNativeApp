@@ -4,6 +4,7 @@ import SplashScreen from 'react-native-splash-screen'
 import { useEffect } from 'react';
 import './src/API/axiosConfig';
 import { colors } from './src/utils';
+import { AppSettingsContextProvider } from './src/context';
 
 export default function App() {
   useEffect(() => {
@@ -11,10 +12,12 @@ export default function App() {
   }, [])
 
   return (
-    <SafeAreaView style={styles.container}>
-      <AppContainer />
-      <StatusBar barStyle="dark-content" backgroundColor={colors.common.white}/>
-    </SafeAreaView>
+    <AppSettingsContextProvider>
+      <SafeAreaView style={styles.container}>
+        <AppContainer />
+        <StatusBar barStyle="dark-content" backgroundColor={colors.common.white} />
+      </SafeAreaView>
+    </AppSettingsContextProvider>
   );
 }
 

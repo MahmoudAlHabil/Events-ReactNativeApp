@@ -20,10 +20,19 @@ const styles = ScaledSheet.create({
         fontSize: 14,
         textAlign: "right",
     },
+    labelContainer: {
+        flexDirection: "row",
+        alignItems: "center",
+    },
     label: {
         ...typography.M.medium,
         color: colors.gray[500],
         textAlign: "left",
+        lineHeight: 28,
+    },
+    labelIcon: {
+        marginEnd: 8,
+        marginStart: 4,
     },
 })
 

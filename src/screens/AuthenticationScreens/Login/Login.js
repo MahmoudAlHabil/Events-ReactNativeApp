@@ -28,6 +28,7 @@ const Login = () => {
                 <Formik
                     initialValues={{ email: "lkaslkas01@gmail.com", password: "123456" }}
                     onSubmit={(values, { ...rest }) => {
+                        replace('Home')
                         axios
                             .post("login", {
                                 email: values.email,
@@ -37,10 +38,9 @@ const Login = () => {
                                 if (response.data.status) {
                                     setAccessToken(response.data?.data?.token)
                                     AsyncStorage.setItem("accessToken", response.data?.data?.token);
-                                    replace('Home')
+                                    // replace('Home')
                                     rest.setSubmitting(false);
                                     rest.resetForm();
-                                    console.log(response.data.data.token)
                                 } else {
                                     alert(response.data.message)
                                 }

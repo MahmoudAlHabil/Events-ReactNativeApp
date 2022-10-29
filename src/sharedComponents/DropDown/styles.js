@@ -4,10 +4,19 @@ import { colors, typography } from "../../utils";
 const styles = StyleSheet.create({
     container: {
     },
+    labelContainer: {
+        flexDirection: "row",
+        alignItems: "center",
+    },
     label: {
         ...typography.M.medium,
         color: colors.gray[500],
         textAlign: "left",
+        lineHeight: 28,
+    },
+    labelIcon: {
+        marginEnd: 8,
+        marginStart: 4,
     },
     dropDownContainer: {
         backgroundColor: colors.gray[100],

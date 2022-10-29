@@ -1,6 +1,6 @@
 import AuthStack from "./AuthStack";
 import HomeStack from "./HomeStack";
-import FavoriteStack from "./FavoriteStack";
+import NotificationsStack from "./NotificationsStack";
 import MyEventsStack from "./MyEventsStack";
 import ProfileStack from "./ProfileStack";
 import CreateEventStack from "./CreateEventStack";
@@ -8,7 +8,7 @@ import CreateEventStack from "./CreateEventStack";
 export { 
     AuthStack, 
     HomeStack,
-    FavoriteStack,
+    NotificationsStack,
     MyEventsStack,
     ProfileStack,
     CreateEventStack,
