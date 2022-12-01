@@ -1,0 +1,20 @@
+import { createContext, useContext, useState } from "react";
+
+const InterestsContext = createContext({
+    interests: [],
+    setInterests: () => { },
+});
+
+export const InterestsContextProvider = ({ children }) => {
+    const [interests, setInterests] = useState([]);
+
+    return (
+        <InterestsContext.Provider value={{ interests, setInterests }}>
+            {children}
+        </InterestsContext.Provider>
+    );
+}
+
+export const useInterestsContext = () => {
+    return useContext(InterestsContext)
+}

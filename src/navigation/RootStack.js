@@ -1,8 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { AuthStack } from './Stacks';
-import { Text } from 'react-native';
 import HomeTab from './HomeTab';
 
 const Stack = createNativeStackNavigator();

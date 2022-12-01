@@ -4,6 +4,18 @@ import { colors, typography } from "../../utils";
 const styles = StyleSheet.create({
     container: {
     },
+    dropDown: {
+        flexDirection: "row",
+        alignItems: "center",
+        height: 48,
+        width: "100%",
+        borderRadius: 10,
+        backgroundColor: colors.gray[100],
+        paddingHorizontal: 12,
+    },
+    placeholder: {
+        color: '#999',
+    },
     labelContainer: {
         flexDirection: "row",
         alignItems: "center",
@@ -17,12 +29,6 @@ const styles = StyleSheet.create({
     labelIcon: {
         marginEnd: 8,
         marginStart: 4,
-    },
-    dropDownContainer: {
-        backgroundColor: colors.gray[100],
-        borderRadius: 10,
-        borderWidth: 0,
-        // flex: 1,
     },
     itemSeparatorStyle: {
         backgroundColor: colors.gray[300],

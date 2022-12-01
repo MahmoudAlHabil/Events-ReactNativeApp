@@ -2,7 +2,7 @@ import { View, Text, FlatList } from 'react-native'
 import React from 'react'
 import styles from './styles'
 import NotificationItem from './NotificationItem/NotificationItem'
-import { NotificationsContextProvider, useNotificationsContext } from '../../context'
+import { useNotificationsContext } from '../../context'
 
 
 const Notifications = () => {

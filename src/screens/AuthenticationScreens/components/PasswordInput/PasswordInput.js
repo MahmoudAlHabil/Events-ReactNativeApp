@@ -2,7 +2,7 @@ import React, { useState, memo } from 'react'
 import { View, Text } from 'react-native'
 import { colors, icons } from '../../../../utils'
 import Icon from "react-native-vector-icons/Feather"
-import { InputField } from '../../../../sharedComponents';
+import { InputField } from '../../../../components';
 import { usePasswordValidation } from '../../../../hooks';
 import { SvgXml } from 'react-native-svg';
 import styles from './styles';

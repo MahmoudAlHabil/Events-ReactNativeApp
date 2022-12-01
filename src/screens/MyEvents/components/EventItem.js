@@ -2,18 +2,17 @@ import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import { colors, typography } from '../../../utils'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
-
-// accepted = green
-// pending = yellow
-// rejected = red
+import { useNavigation } from '@react-navigation/native'
 
 const EventItem = ({ item }) => {
+    const { navigate } = useNavigation()
     const { name, type, date, time, location, maxParticipants, public: isPublic, status } = item
     const statusName = status === 'accepted' ? 'مقبول' : status === 'pending' ? 'قيد الانتظار' : 'مرفوض'
     const statusColor = status === 'accepted' ? colors.success.main : status === 'pending' ? colors.warning.main : colors.danger.main
 
     return (
-        <TouchableOpacity activeOpacity={0.8} style={styles.container}>
+        <TouchableOpacity activeOpacity={0.8} style={styles.container}
+            onPress={() => navigate('MyEventScreen', {item})}>
             <View style={[styles.status, { backgroundColor: statusColor }]}>
                 <Text style={styles.title}>{statusName || 'بانتظار الموافقة'}</Text>
             </View>

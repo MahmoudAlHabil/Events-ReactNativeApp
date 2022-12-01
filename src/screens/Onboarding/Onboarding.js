@@ -4,7 +4,7 @@ import styles from "./styles";
 import { Dots, OnboardingItem } from "./components";
 import { useNavigation } from "@react-navigation/native";
 import { icons } from "../../utils";
-import { Button } from "../../sharedComponents";
+import { Button } from "../../components";
 
 const data = [
   {

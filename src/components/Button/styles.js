@@ -18,6 +18,7 @@ const styles = (width) => ScaledSheet.create({
     iconStyle: {
         width: 16,
         height: 16,
+        marginTop: 3,
     }
 })
 

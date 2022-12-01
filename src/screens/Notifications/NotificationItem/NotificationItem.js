@@ -6,9 +6,11 @@ import Entypo from 'react-native-vector-icons/Entypo'
 import { colors } from '../../../utils'
 import { useNotificationsContext } from '../../../context'
 import Modal from "react-native-modal"
-import { Button } from '../../../sharedComponents'
+import { Button } from '../../../components'
+import { useNavigation } from '@react-navigation/native'
 
 const NotificationItem = ({ item }) => {
+    const {navigate } = useNavigation()
     const { title, time, touched } = item
     const style = styles(touched)
     const [modalVisible, setModalVisible] = useState(false)

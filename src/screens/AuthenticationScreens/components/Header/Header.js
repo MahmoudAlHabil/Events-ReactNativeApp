@@ -1,7 +1,7 @@
 import { View, Text } from 'react-native'
 import React, { FC } from 'react'
 import styles from './styles'
-import { HeaderScreen } from '../../../../sharedComponents';
+import { HeaderScreen } from '../../../../components';
 
 const Header = ({ title, subTitle, actionText, actionNavigation, highlightText, subTitle2 }) => {
     return (

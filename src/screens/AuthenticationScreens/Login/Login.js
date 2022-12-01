@@ -4,7 +4,7 @@ import styles from './styles'
 import { Footer, Header, PasswordInput } from '../components'
 import { useNavigation } from '@react-navigation/native'
 import { Formik } from 'formik';
-import { Button, InputField, MessageInformation } from '../../../sharedComponents';
+import { Button, InputField, MessageInformation } from '../../../components';
 import { icons } from '../../../utils';
 import * as Yup from 'yup'
 import { setAccessToken } from '../../../API/axiosConfig'
@@ -49,7 +49,7 @@ const Login = () => {
                                 console.log({ error });
                             });
                     }}
-                validationSchema={schema}
+                    validationSchema={schema}
                 >
                     {({ errors, values, handleChange, handleSubmit, touched, isSubmitting, handleReset }) => (
                         <Fragment>
@@ -85,7 +85,7 @@ const Login = () => {
                                 <Button
                                     title='تسجيل الدخول'
                                     onPress={handleSubmit}
-                                    // disabled={isSubmitting}
+                                // disabled={isSubmitting}
                                 />
                             </View>
                             <Footer headerText='Login using' questionText='ليس لديك حساب؟' actionText='أنشئ حسابًا' navigation={() => {

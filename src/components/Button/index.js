@@ -20,17 +20,18 @@ const Button = (props) => {
 
     return (
         <TouchableOpacity
+            activeOpacity={0.7}
             disabled={disabled}
             {...rest}
             onPress={onPress}
             style={[style.button, buttonStyle]}>
             <View style={{ flexDirection: 'row' }}>
-                <Text style={[style.title, titleStyle]}>{title}</Text>
                 {icon && (
                     <View style={[style.iconStyle, iconStyle]}>
                         {icon}
                     </View>
                 )}
+                <Text style={[style.title, titleStyle]}>{title}</Text>
             </View>
         </TouchableOpacity>
     )

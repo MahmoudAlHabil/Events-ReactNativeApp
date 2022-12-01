@@ -4,7 +4,7 @@ import { Header } from '../components'
 import styles from './styles'
 import { useNavigation } from '@react-navigation/native'
 import { Formik } from 'formik'
-import { Button, InputField, MessageInformation } from '../../../sharedComponents'
+import { Button, InputField, MessageInformation } from '../../../components'
 import { icons } from '../../../utils'
 import * as Yup from 'yup'
 

@@ -4,7 +4,7 @@ import { Footer, Header, PasswordInput } from '../components'
 import styles from './styles'
 import { useNavigation, useRoute } from '@react-navigation/native'
 import { Formik } from 'formik'
-import { Button, DropDown, InputField, MessageInformation } from '../../../sharedComponents';
+import { Button, DropDown, InputField, MessageInformation } from '../../../components';
 import * as Yup from 'yup'
 import { icons } from '../../../utils'
 import { usePasswordValidation } from '../../../hooks'

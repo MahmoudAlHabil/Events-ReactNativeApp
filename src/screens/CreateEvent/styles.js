@@ -26,19 +26,26 @@ const styles = StyleSheet.create({
     },
     nextButton: {
         backgroundColor: colors.primary.main,
-        width: '48%',
-        marginLeft: '2%',
+        width: '47%',
+        height: 40,
+    },
+    nextButtonText: {
+        color: colors.common.white,
+        ...typography.M.medium,
+        lineHeight: 28,
     },
     cancelButton: {
         marginEnd: 10,
-        width: '48%',
-        marginRight: '2%',
+        width: '47%',
+        height: 40,
         backgroundColor: colors.common.white,
         borderWidth: 1,
         borderColor: colors.primary.main,
     },
     cancelButtonText: {
         color: colors.primary.main,
+        ...typography.M.medium,
+        lineHeight: 28,
     },
 })
 

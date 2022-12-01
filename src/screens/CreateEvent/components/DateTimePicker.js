@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Button, Keyboard, StyleSheet, View } from "react-native";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
-import { InputField } from "../../../sharedComponents";
+import { InputField } from "../../../components";
 
 const DateTimePicker = ({ type, label, icon, style, onChangeText }) => {
     const [dateOrTime, setDateOrTime] = useState();
@@ -29,7 +29,7 @@ const DateTimePicker = ({ type, label, icon, style, onChangeText }) => {
         <View>
             <InputField
                 label={label}
-                placeholder={type === "date" ? "أدخل تاريخ المناسبة" : "أدخل وقت المناسبة"}
+                placeholder={type === "date" ? "التاريخ" : "الوقت"}
                 labelIcon={icon}
                 containerStyle={style}
                 value={dateOrTime}

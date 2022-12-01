@@ -1,64 +1,143 @@
-import { View, Text, BackHandler, Image } from 'react-native'
-import React, { useEffect } from 'react'
+import { View, Text, Image, FlatList, TouchableOpacity, StatusBar } from 'react-native'
+import React from 'react'
 import styles from './styles'
-import AsyncStorage from '@react-native-async-storage/async-storage'
-import { Button } from '../../sharedComponents'
 import { useNavigation } from '@react-navigation/native'
-import axios from 'axios'
 import Swiper from 'react-native-swiper'
 import { colors, icons } from '../../utils'
-import { SvgXml } from 'react-native-svg'
+import { PublicEventItem } from '../../components'
+import MainSectionItem from './components/MainSectionItem'
+
+export const eventData = [
+  {
+    id: 1,
+    name: 'حفل تكريم الطلاب الخريجين للعام الدراسي 2021-2022',
+    owner: 'كلية الهندسة - جامعة فلسطين',
+    type: 'مناسبة عامة',
+    day: 'السبت',
+    date: '05/11/2022',
+    time: '10:00',
+    location: 'القرية السياحية',
+    maxParticipants: 100,
+    interestedPeople: 52,
+    public: true,
+    status: 'accepted',
+    image: '',
+    isInterested: true,
+  },
+  {
+    id: 2,
+    name: 'حفل تكريم الطلاب الخريجين للعام الدراسي 2021-2022',
+    owner: 'كلية الهندسة - جامعة فلسطين',
+    type: 'مناسبة عامة',
+    day: 'السبت',
+    date: '05/11/2022',
+    time: '10:00',
+    location: 'القرية السياحية',
+    maxParticipants: 100,
+    interestedPeople: 52,
+    public: true,
+    status: 'accepted',
+    image: '',
+    isInterested: true,
+  },
+  {
+    id: 3,
+    name: 'حفل تكريم الطلاب الخريجين للعام الدراسي 2021-2022',
+    owner: 'كلية الهندسة - جامعة فلسطين',
+    type: 'مناسبة عامة',
+    day: 'السبت',
+    date: '05/11/2022',
+    time: '10:00',
+    location: 'القرية السياحية',
+    maxParticipants: 100,
+    interestedPeople: 52,
+    public: true,
+    status: 'accepted',
+    image: '',
+    isInterested: true,
+  },
+  {
+    id: 4,
+    name: 'حفل تكريم الطلاب الخريجين للعام الدراسي 2021-2022',
+    owner: 'كلية الهندسة - جامعة فلسطين',
+    type: 'مناسبة عامة',
+    day: 'السبت',
+    date: '05/11/2022',
+    time: '10:00',
+    location: 'القرية السياحية',
+    maxParticipants: 100,
+    interestedPeople: 52,
+    public: true,
+    status: 'accepted',
+    image: '',
+    isInterested: true,
+  },
+  {
+    id: 5,
+    name: 'حفل تكريم الطلاب الخريجين للعام الدراسي 2021-2022',
+    owner: 'كلية الهندسة - جامعة فلسطين',
+    type: 'مناسبة عامة',
+    day: 'السبت',
+    date: '05/11/2022',
+    time: '10:00',
+    location: 'القرية السياحية',
+    maxParticipants: 100,
+    interestedPeople: 52,
+    public: true,
+    status: 'accepted',
+    image: '',
+    isInterested: true,
+  },
+]
+
 
 const Home = () => {
-  const { replace } = useNavigation()
-  const [accessToken, setAccessToken] = React.useState(null)
-
-  useEffect(() => {
-    AsyncStorage.getItem('accessToken').then((value) => {
-      setAccessToken(value)
-    })
-  }, [])
+  const { navigate } = useNavigation()
+  const headerList = (<FlatList
+    data={eventData}
+    ListHeaderComponent={headerList}
+    renderItem={({ item }) => <PublicEventItem item={item} />}
+    keyExtractor={(item, index) => index.toString()}
+    showsVerticalScrollIndicator={false}
+  />)
 
   return (
     <View style={styles.container} >
-    <SvgXml xml={icons.logo} style={styles.logo}/>
-      <Text style={styles.welcomeText}>مرحبا بك، <Text style={styles.name}>محمود ماهر الهبيل</Text></Text>
-      <View style={styles.wrapper}>
-        <Swiper style={styles.swiper}
-          activeDotColor={colors.primary.main}
-          dotColor={colors.primary.light}
-          showsPagination={false}
-          // showsButtons={true} 
-          // nextButton={<Text style={{color: colors.primary.main, fontSize: 50}}>‹</Text>} 
-          // prevButton={<Text style={{color: colors.primary.main, fontSize: 50}}>›</Text>}
-          autoplay={true}>
-          <Image source={require('../../../assets/images/slide.png')} style={styles.slide} />
-          <Image source={require('../../../assets/images/slide2.png')} style={styles.slide} />
-          <Image source={require('../../../assets/images/slide3.png')} style={styles.slide} />
-          <Image source={require('../../../assets/images/slide4.png')} style={styles.slide} />
-          <Image source={require('../../../assets/images/slide5.png')} style={styles.slide} />
-        </Swiper>
+      <StatusBar backgroundColor={colors.common.white} barStyle="dark-content" />
+      <View>
+        <Text style={styles.welcomeText}>مرحبا بك، <Text style={styles.name}>محمود ماهر الهبيل</Text></Text>
+        <View style={styles.wrapper}>
+          <Swiper style={styles.swiper}
+            activeDotColor={colors.primary.main}
+            dotColor={colors.primary.light}
+            showsPagination={true}
+            paginationStyle={styles.dot}
+            autoplay={true}>
+            <Image source={require('../../../assets/images/slide.png')} style={styles.slide} />
+            <Image source={require('../../../assets/images/slide2.png')} style={styles.slide} />
+            <Image source={require('../../../assets/images/slide3.png')} style={styles.slide} />
+            <Image source={require('../../../assets/images/slide4.png')} style={styles.slide} />
+            <Image source={require('../../../assets/images/slide5.png')} style={styles.slide} />
+          </Swiper>
+        </View>
+        <View style={styles.horizontalLine} />
+        <Text style={styles.publicEventText}>أنشئ المناسبة الخاصة بك الآن</Text>
+        <MainSectionItem />
+        <View style={styles.horizontalLine} />
+        <View style={styles.publicEventTextWrapper}>
+          <Text style={styles.publicEventText}>المناسبات العامة</Text>
+          <TouchableOpacity onPress={() => navigate('PublicEventsScreen')}>
+            <Text style={styles.seeAllText}>عرض الكل</Text>
+          </TouchableOpacity>
+        </View>
+        <FlatList
+          data={eventData}
+          renderItem={({ item }) => <PublicEventItem item={item} horizontal />}
+          keyExtractor={(item, index) => index.toString()}
+          horizontal
+          showsHorizontalScrollIndicator={false}
+        />
       </View>
-      <Text>Home</Text>
-      <Text>{accessToken}</Text>
-      <Button
-        title="تسجيل الخروج"
-        onPress={() => {
-          axios({
-            method: 'POST',
-            url: 'logout',
-          })
-            .then((response) => {
-              console.log(response.data)
-              AsyncStorage.removeItem('accessToken')
-              setAccessToken(null)
-              replace('AuthStack')
-            })
-            .catch((error) => {
-              console.log(error)
-            })
-        }}
-      />
     </View>
   )
 }
