@@ -9,6 +9,9 @@ const PackageDetalisScreen = () => {
 
     return (
         <View style={styles.container}>
+        <View style={styles.header}>
+            <Text style={styles.headerText}>محتوى الحزمة التي قمت بإخيارها</Text>
+        </View>
             <FlatList
                 data={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]}
                 renderItem={({ item }) => (
@@ -35,6 +38,11 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: colors.common.white,
         padding: 20,
+    },
+    headerText: {
+        ...typography.S.semibold,
+        color: colors.common.black,
+        marginLeft: 5,
     },
     nextButton: {
         backgroundColor: colors.primary.main,

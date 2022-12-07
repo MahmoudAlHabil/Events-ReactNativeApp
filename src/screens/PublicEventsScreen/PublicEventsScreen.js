@@ -2,16 +2,17 @@ import { StyleSheet, Text, View, FlatList } from 'react-native'
 import React from 'react'
 import { PublicEventItem } from '../../components'
 import { colors, typography } from '../../utils'
-import { useInterestsContext } from '../../context'
+import { useAllEventsContext, useInterestsContext } from '../../context'
 import { eventData } from '../Home/Home'
 
 const PublicEventsScreen = () => {
+    const { allEvents } = useAllEventsContext()
 
     return (
         <View style={styles.container}>
             {eventData.length > 0 ?
                 <FlatList
-                    data={eventData}
+                    data={allEvents}
                     keyExtractor={(item, index) => (index.toString())}
                     renderItem={({ item }) => <PublicEventItem item={item} />}
                     contentContainerStyle={styles.flatList}

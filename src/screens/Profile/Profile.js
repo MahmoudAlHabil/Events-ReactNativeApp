@@ -6,31 +6,23 @@ import axios from 'axios'
 import { useNavigation } from '@react-navigation/native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { setAccessToken } from '../../API/axiosConfig'
+import { useUserInfoContext } from '../../context'
 
 const Profile = () => {
   const { navigate, replace } = useNavigation()
+  const { userInfo } = useUserInfoContext()
 
   const logoutHandler = () => {
+    AsyncStorage.removeItem('accessToken')
     replace('AuthStack')
-    axios({
-      method: 'POST',
-      url: 'logout',
-    })
-      .then((response) => {
-        console.log(response.data)
-        AsyncStorage.removeItem('accessToken')
-      })
-      .catch((error) => {
-        console.log(error)
-      })
   }
 
   return (
     <View style={styles.container}>
       <View style={styles.header}>
         <Image style={styles.image} source={require('../../../assets/images/Photograph.jpg')} />
-        <Text style={styles.name}>محمود ماهر الهبيل</Text>
-        <Text style={styles.phone}>0592773664</Text>
+        <Text style={styles.name}>{userInfo.name}</Text>
+        <Text style={styles.phone}>{userInfo.email}</Text>
       </View>
       <ButtonProfile title='تعديل الملف الشخصي' iconName='person-outline'
         action={() => navigate('UpdateProfileScreen')} style={styles.headerList} isNavigateIcon />

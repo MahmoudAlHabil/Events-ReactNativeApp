@@ -1,7 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 
-axios.defaults.baseURL = 'https://student.valuxapps.com/api/'
+axios.defaults.baseURL = 'https://evento-server.onrender.com'
 
 export const setAccessToken = (token) => {
   axios.defaults.headers.common = {

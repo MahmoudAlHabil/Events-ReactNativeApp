@@ -7,7 +7,7 @@ const styles = StyleSheet.create({
         backgroundColor: colors.common.white,
         paddingHorizontal: 20,
         // paddingTop: 20,
-        paddingBottom: 60,
+        paddingBottom: 110,
     },
     header: {
         flexDirection: 'row',
@@ -26,6 +26,11 @@ const styles = StyleSheet.create({
     numberEvents: {
         flexDirection: 'row',
         justifyContent: 'space-between',
+        alignItems: 'center',
+    },
+    loading: {
+        flex: 1,
+        justifyContent: 'center',
         alignItems: 'center',
     },
 })

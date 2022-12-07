@@ -1,11 +1,13 @@
-import { View, Text, Image, FlatList, TouchableOpacity, StatusBar } from 'react-native'
-import React from 'react'
+import { View, Text, Image, FlatList, TouchableOpacity, StatusBar, ActivityIndicator } from 'react-native'
+import React, { Fragment, useEffect, useState } from 'react'
 import styles from './styles'
 import { useNavigation } from '@react-navigation/native'
 import Swiper from 'react-native-swiper'
 import { colors, icons } from '../../utils'
 import { PublicEventItem } from '../../components'
 import MainSectionItem from './components/MainSectionItem'
+import { useAllEventsContext } from '../../context'
+import axios from 'axios'
 
 export const eventData = [
   {
@@ -90,9 +92,10 @@ export const eventData = [
   },
 ]
 
-
 const Home = () => {
   const { navigate } = useNavigation()
+  const { allEvents, setAllEvents } = useAllEventsContext()
+  const [loading, setLoading] = useState()
   const headerList = (<FlatList
     data={eventData}
     ListHeaderComponent={headerList}
@@ -100,6 +103,19 @@ const Home = () => {
     keyExtractor={(item, index) => index.toString()}
     showsVerticalScrollIndicator={false}
   />)
+
+  useEffect(() => {
+    setLoading(true)
+    axios
+      .get('/api/events')
+      .then((res) => {
+        setAllEvents(res.data)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+      .finally(() => setLoading(false))
+  }, [])
 
   return (
     <View style={styles.container} >
@@ -125,18 +141,24 @@ const Home = () => {
         <MainSectionItem />
         <View style={styles.horizontalLine} />
         <View style={styles.publicEventTextWrapper}>
-          <Text style={styles.publicEventText}>المناسبات العامة</Text>
+          <Text style={styles.publicEventText}>المناسبات القادمة</Text>
           <TouchableOpacity onPress={() => navigate('PublicEventsScreen')}>
             <Text style={styles.seeAllText}>عرض الكل</Text>
           </TouchableOpacity>
         </View>
-        <FlatList
-          data={eventData}
-          renderItem={({ item }) => <PublicEventItem item={item} horizontal />}
-          keyExtractor={(item, index) => index.toString()}
-          horizontal
-          showsHorizontalScrollIndicator={false}
-        />
+        {!loading ?
+          <FlatList
+            data={allEvents.slice(0, 3)}
+            renderItem={({ item }) => <PublicEventItem item={item} horizontal />}
+            keyExtractor={(item, index) => index.toString()}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+          />
+          :
+          <View style={styles.loading}>
+            <ActivityIndicator size="large" color={colors.primary.main} />
+          </View>
+        }
       </View>
     </View>
   )

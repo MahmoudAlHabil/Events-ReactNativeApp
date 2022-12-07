@@ -59,6 +59,11 @@ const styles = StyleSheet.create({
         marginTop: 15,
         marginBottom: -10,
     },
+    loading: {
+        marginTop: 100,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
 })
 
 export default styles;

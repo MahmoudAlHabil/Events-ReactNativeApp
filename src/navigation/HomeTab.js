@@ -1,12 +1,16 @@
 import React, { useEffect } from 'react'
 import { StyleSheet, TouchableOpacity, View, Animated, Text } from "react-native"
 import { MyInterestsStack, HomeStack, MyEventsStack, ProfileStack, CreateEventStack } from "./Stacks"
-import { CurvedBottomBar, setVisible } from 'react-native-curved-bottom-bar'
+import { CurvedBottomBar } from 'react-native-curved-bottom-bar'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import { colors, typography } from '../utils'
 import { useNavigation } from '@react-navigation/native'
 import { useAppSettingsContext } from '../context/AppSettingsContext'
 import { InterestsContextProvider } from '../context'
+import { useUserInfoContext } from '../context';
+import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage'
+
 export const headerOptions = {
     headerShown: true,
     headerTitleStyle: {
@@ -23,6 +27,18 @@ const HomeTab = () => {
     const { navigate } = useNavigation()
     const { appSettings, dispatchAppSettings } = useAppSettingsContext()
     const tabRef = React.useRef(null)
+    const { setUserInfo } = useUserInfoContext()
+
+    useEffect(() => {
+        AsyncStorage.getItem('userId').then((value) => {
+            axios.get(`/api/users/${value}`)
+                .then((res) => {
+                    console.log(res.data)
+                    setUserInfo(res.data)
+                })
+        })
+    }, [])
+
 
     useEffect(() => {
         dispatchAppSettings({ type: 'SET_APP_SETTINGS', payload: { setVisibleTabBottom: tabRef.current.setVisible } })
@@ -111,7 +127,7 @@ const HomeTab = () => {
                         name="HomeStack"
                         component={HomeStack}
                         position="LEFT"
-                        options={{headerShown: false}}
+                        options={{ headerShown: false }}
                     />
                     <CurvedBottomBar.Screen
                         name="MyEventsStack"

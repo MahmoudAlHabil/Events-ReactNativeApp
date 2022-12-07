@@ -5,18 +5,18 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const AppContainer = () => {
   const [accessToken, setAccessToken] = useState('No token');
-    useEffect(() => {
-        AsyncStorage.getItem('accessToken').then((value) => {
-            setAccessToken(value)
-        })
-    }, [])
+  useEffect(() => {
+    AsyncStorage.getItem('accessToken').then((value) => {
+      setAccessToken(value)
+    })
+  }, [])
 
   return (
     (accessToken !== 'No token') ?
-    <NavigationContainer>
-      <RootStack routeName={accessToken ? 'Home' : 'AuthStack'} />
-    </NavigationContainer>
-    : null
+      <NavigationContainer>
+        <RootStack routeName={accessToken ? 'Home' : 'AuthStack'} />
+      </NavigationContainer>
+      : null
   );
 }
 

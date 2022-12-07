@@ -2,9 +2,8 @@ import { useNavigation, useRoute } from '@react-navigation/native'
 import React from 'react'
 import { StyleSheet, Text, View, Image, TouchableOpacity, FlatList, ScrollView } from 'react-native'
 import { Button, PublicEventItem } from '../../components'
-import { useInterestsContext } from '../../context'
+import { useAllEventsContext, useInterestsContext } from '../../context'
 import { colors, shadow, typography } from '../../utils'
-import { eventData } from '../Home/Home'
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import Entypo from 'react-native-vector-icons/Entypo'
 import Ionicons from 'react-native-vector-icons/Ionicons'
@@ -17,6 +16,8 @@ const PublicEventScreen = () => {
     const publicEvents = item
     const { interests, setInterests } = useInterestsContext()
     const isInterested = interests.includes(publicEvents)
+    const { allEvents } = useAllEventsContext()
+    const suggestedEvents = allEvents.filter(event => event._id !== item._id)
     const style = styles(isInterested)
 
     const IconWithText = ({ iconName, text }) => {
@@ -66,10 +67,10 @@ const PublicEventScreen = () => {
                     <IconWithText iconName={'calendar'} text={`${day}، ${date} الساعة ${time} ص`} />
                     <IconWithText iconName={'location'} text={location} />
                     <IconWithText iconName={'ios-checkbox'} text={`أشخاص مهتمون: ${interestedPeople}`} />
-                    
+
                     <Text style={style.descriptionText}>الوصف</Text>
                     <Text style={style.description}>ناسبة عامة بواسط ناسبة عامة بواسط ناسبة عامة بواسط ناسبة عامة بواسط ناسبة عامة بواسط</Text>
-                    
+
                     <View style={styles.horizontalLine} />
                 </View>
                 <View style={style.publicEventTextWrapper}>
@@ -79,7 +80,7 @@ const PublicEventScreen = () => {
                     </TouchableOpacity>
                 </View>
                 <FlatList
-                    data={eventData}
+                    data={suggestedEvents.slice(0, 3)}
                     renderItem={({ item }) => <PublicEventItem item={item} horizontal />}
                     keyExtractor={(item, index) => index.toString()}
                     horizontal

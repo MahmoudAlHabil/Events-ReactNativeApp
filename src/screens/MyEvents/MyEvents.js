@@ -1,9 +1,11 @@
-import { View, Text, FlatList } from 'react-native'
-import React from 'react'
+import { View, Text, FlatList, ActivityIndicator } from 'react-native'
+import React, { useEffect } from 'react'
 import styles from './styles'
 import EventItem from './components/EventItem'
 import { colors } from '../../utils'
 import NumberEvents from './components/NumberEvents'
+import axios from 'axios'
+import { useUserInfoContext } from '../../context'
 
 const MyEventsData = [
   {
@@ -97,22 +99,42 @@ const MyEventsData = [
 ]
 
 const MyEvents = () => {
+  const { userInfo } = useUserInfoContext()
+  const [events, setEvents] = React.useState([])
+  const [loading, setLoading] = React.useState(true)
+
+  useEffect(() => {
+    axios.get(`/api/events/user/${userInfo.id}`)
+      .then(res => {
+        console.log(res.data)
+        setEvents(res.data)
+      })
+      .catch(err => console.log(err))
+      .finally(() => setLoading(false))
+  }, [])
+
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.title}>إجمالي المناسبات:
-          <Text style={styles.totalNumber}> {MyEventsData.length} </Text>
-        </Text>
-        <View style={styles.numberEvents}>
-          <NumberEvents data={MyEventsData} status='rejected' />
-          <NumberEvents data={MyEventsData} status='pending' />
-          <NumberEvents data={MyEventsData} status='accepted' />
+      {!loading ?
+        <View>
+          <View style={styles.header}>
+            <Text style={styles.title}>إجمالي المناسبات:
+              <Text style={styles.totalNumber}> {events.length} </Text>
+            </Text>
+            <View style={styles.numberEvents}>
+              <NumberEvents data={events} status='rejected' />
+              <NumberEvents data={events} status='pending' />
+              <NumberEvents data={events} status='accepted' />
+            </View>
+          </View>
+          <FlatList data={events}
+            renderItem={({ item }) => <EventItem item={item} />}
+            keyExtractor={(item) => item._id.toString()}
+            showsVerticalScrollIndicator={false} />
         </View>
-      </View>
-      <FlatList data={MyEventsData}
-        renderItem={({ item }) => <EventItem item={item} />}
-        keyExtractor={(item) => item.id.toString()}
-        showsVerticalScrollIndicator={false} />
+        : <View style={styles.loading}>
+          <ActivityIndicator size="large" color={colors.primary.main} />
+        </View>}
     </View>
   )
 }

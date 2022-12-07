@@ -1,5 +1,6 @@
 import React from 'react';
-import { Text, View, TouchableOpacity, useWindowDimensions } from 'react-native';
+import { Text, View, TouchableOpacity, useWindowDimensions, ActivityIndicator } from 'react-native';
+import { colors } from '../../utils';
 import styles from './styles';
 
 const Button = (props) => {
@@ -25,14 +26,15 @@ const Button = (props) => {
             {...rest}
             onPress={onPress}
             style={[style.button, buttonStyle]}>
-            <View style={{ flexDirection: 'row' }}>
-                {icon && (
-                    <View style={[style.iconStyle, iconStyle]}>
-                        {icon}
-                    </View>
-                )}
-                <Text style={[style.title, titleStyle]}>{title}</Text>
-            </View>
+            {disabled ? <ActivityIndicator color={colors.common.black} />
+                : <View style={{ flexDirection: 'row' }}>
+                    {icon && (
+                        <View style={[style.iconStyle, iconStyle]}>
+                            {icon}
+                        </View>
+                    )}
+                    <Text style={[style.title, titleStyle]}>{title}</Text>
+                </View>}
         </TouchableOpacity>
     )
 }
