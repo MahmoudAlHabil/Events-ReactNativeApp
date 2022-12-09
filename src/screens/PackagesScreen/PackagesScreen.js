@@ -11,7 +11,7 @@ const PackagesScreen = () => {
     const { goBack, canGoBack, navigate } = useNavigation()
     const { appSettings } = useAppSettingsContext()
     const [loading, setLoading] = useState(false)
-    const [packages, setPackages] = useState([1])
+    const [packages, setPackages] = useState([])
 
     const goBackHandler = () => {
         goBack()
@@ -31,7 +31,6 @@ const PackagesScreen = () => {
         axios
             .get('/api/packages')
             .then(res => {
-                console.log(res.data.packages)
                 setPackages(res.data.packages)
             })
             .catch(err => console.log(err))
@@ -52,9 +51,9 @@ const PackagesScreen = () => {
                     renderItem={({ item }) => (
                         <TouchableOpacity style={styles.package}
                             onPress={() => navigate('PackageDetalisScreen', { item })}>
-                            <Text style={styles.packageTitle}>باقة البداية</Text>
-                            <Text style={styles.packageDescription}>باقة البداية تحتوي على 10 مناسبات</Text>
-                            <Text style={styles.packagePrice}>100 ريال</Text>
+                            <Text style={styles.packageTitle}>{item.name}</Text>
+                            <Text style={styles.packageDescription}>{item.description}</Text>
+                            <Text style={styles.packagePrice}>{item.price} شيكل</Text>
                         </TouchableOpacity>
                     )}
                     showsVerticalScrollIndicator={false}
@@ -76,6 +75,11 @@ const styles = StyleSheet.create({
         backgroundColor: colors.common.white,
         paddingHorizontal: 10,
         paddingVertical: 20,
+    },
+    loading: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
     },
     headerText: {
         ...typography.S.semibold,
@@ -111,5 +115,17 @@ const styles = StyleSheet.create({
         ...typography.M.medium,
         color: colors.primary.main,
         textAlign: 'center',
+    },
+    packageDescription: {
+        ...typography.S.regular,
+        color: colors.common.black,
+        textAlign: 'center',
+        marginTop: 10,
+    },
+    packagePrice: {
+        ...typography.M.medium,
+        color: colors.primary.main,
+        textAlign: 'center',
+        marginTop: 10,
     },
 })

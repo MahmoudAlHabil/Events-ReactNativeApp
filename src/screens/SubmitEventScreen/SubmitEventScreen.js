@@ -41,6 +41,7 @@ const SubmitEventScreen = () => {
 
     return (
         <View style={styles.container}>
+            <Text style={styles.title}>أدخل باقي التفاصيل لإتمام إنشاء المناسبة</Text>
             <InputField
                 placeholder="اسم المناسبة"
                 containerStyle={styles.input}
@@ -70,7 +71,7 @@ const SubmitEventScreen = () => {
                     value={toggleCheckBox}
                     onValueChange={(newValue) => setToggleCheckBox(newValue)}
                 />
-                <Text>مناسبة عامة</Text>
+                <Text style={styles.checkBoxText}>مناسبة عامة</Text>
             </View>
             <Button title="إنشاء المناسبة" onPress={formik.handleSubmit}
                 titleStyle={styles.nextButtonText}
@@ -79,11 +80,6 @@ const SubmitEventScreen = () => {
     )
 }
 
-// <DropDown
-//     placeholder='اختر الخصوصية'
-//     items={dropDownPrivacyEvent}
-//     value={formik.values.privacy}
-//     style={styles.input} />
 export default SubmitEventScreen
 
 const styles = StyleSheet.create({
@@ -104,12 +100,22 @@ const styles = StyleSheet.create({
         backgroundColor: colors.primary.main,
         width: '100%',
         height: 40,
-        marginTop: 10,
+        marginTop: 32,
         marginBottom: -10,
     },
     nextButtonText: {
         color: colors.common.white,
         ...typography.M.medium,
         lineHeight: 28,
+    },
+    checkBoxText: {
+        ...typography.S.medium,
+        color: colors.common.black,
+        lineHeight: 32,
+    },
+    title: {
+        ...typography.S.semibold,
+        color: colors.common.black,
+        marginBottom: 10,
     },
 })

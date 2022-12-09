@@ -11,9 +11,10 @@ const PackageDetalisScreen = () => {
     return (
         <View style={styles.container}>
             <View style={styles.header}>
-            <Text>{packageData.name}</Text>
-            <Text>{packageData.description}</Text>
-            <Text>{packageData.price}</Text>
+                <Text style={[styles.headerText, {...typography.M.semibold}]}>{packageData.name}</Text>
+                <Text style={styles.headerText}>{packageData.description}</Text>
+                <Text style={styles.headerText}>المنظم: {packageData.organizer.name}</Text>
+                <Text style={styles.headerText}>سعر الحزمة: {packageData.price} شيكل</Text>
                 <Text style={styles.headerText}>محتوى الحزمة التي قمت بإخيارها</Text>
             </View>
             <FlatList
@@ -27,7 +28,7 @@ const PackageDetalisScreen = () => {
                 showsVerticalScrollIndicator={false}
                 keyExtractor={item => item._id.toString()}
             />
-            <Button title='اعتماد حزمة' onPress={() => navigate('SubmitEventScreen')}
+            <Button title='اعتماد الحزمة' onPress={() => navigate('SubmitEventScreen')}
                 titleStyle={styles.nextButtonText}
                 buttonStyle={styles.nextButton} />
         </View>
@@ -46,6 +47,7 @@ const styles = StyleSheet.create({
         ...typography.S.semibold,
         color: colors.common.black,
         marginLeft: 5,
+        marginBottom: 4,
     },
     nextButton: {
         backgroundColor: colors.primary.main,

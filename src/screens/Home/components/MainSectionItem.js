@@ -20,7 +20,7 @@ const MainSectionItem = () => {
                     <Text style={styles.name}>{'مناسبة مخصصة'}</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={[styles.container, { backgroundColor: 'rgba(120, 28, 104, 0.15)' }]} onPress={() => {
-                    navigate('PackagesScreen')
+                    navigate('CreateEventStack', { screen: 'PackagesScreen' })
                     appSettings.setVisibleTabBottom(false, 'createEvent')
                 }}>
                     <SvgXml xml={icons.wedding} />
@@ -29,14 +29,14 @@ const MainSectionItem = () => {
             </View>
             <View style={[styles.itemsWrapper, { marginBottom: 0 }]}>
                 <TouchableOpacity style={[styles.container, { backgroundColor: 'rgba(252, 231, 0, 0.15)' }]} onPress={() => {
-                    navigate('PackagesScreen')
+                    navigate('PackagesScreen', { screen: 'PackagesScreen' })
                     appSettings.setVisibleTabBottom(false, 'createEvent')
                 }}>
                     <SvgXml xml={icons.birthday} />
                     <Text style={styles.name}>{'حفل عيد ميلاد'}</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={[styles.container, { backgroundColor: 'rgba(0, 245, 255, 0.15)' }]} onPress={() => {
-                    navigate('PackagesScreen')
+                    navigate('PackagesScreen', { screen: 'PackagesScreen' })
                     appSettings.setVisibleTabBottom(false, 'createEvent')
                 }}>
                     <SvgXml xml={icons.graduationCap} />

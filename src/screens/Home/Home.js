@@ -100,6 +100,9 @@ const Home = () => {
   const { navigate } = useNavigation()
   const { allEvents, setAllEvents } = useAllEventsContext()
   const [loading, setLoading] = useState()
+  const { notifications } = useNotificationsContext()
+  const numberUnreadNotifications = notifications.filter(notification => notification.touched === false).length
+  
   const headerList = (<FlatList
     data={eventData}
     ListHeaderComponent={headerList}
@@ -120,11 +123,10 @@ const Home = () => {
       })
       .finally(() => setLoading(false))
   }, [])
-  const { notifications } = useNotificationsContext()
-  const numberUnreadNotifications = notifications.filter(notification => notification.touched === false).length
+
   return (
     <View style={styles.container} >
-      <View  style={styles.header} >
+      <View style={styles.header} >
         <View style={styles.headerRight} >
           <SvgXml xml={icons.logo} />
         </View>
@@ -136,10 +138,10 @@ const Home = () => {
             <Text style={styles.badgeText} >{numberUnreadNotifications}</Text>
           </View>}
         </TouchableOpacity>
-       
+
       </View>
-       <View style={styles.horizontalLine}>
-         </View>
+      <View style={styles.horizontalLine}>
+      </View>
 
       <StatusBar backgroundColor={colors.common.white} barStyle="dark-content" />
       <View>

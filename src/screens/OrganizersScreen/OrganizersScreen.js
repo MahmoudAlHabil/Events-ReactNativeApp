@@ -1,31 +1,75 @@
-import { FlatList, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React from 'react'
+import { ActivityIndicator, FlatList, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import React, { useEffect, useState } from 'react'
 import { useNavigation } from '@react-navigation/native'
 import { Button } from '../../components'
 import { colors, shadow, typography } from '../../utils'
 import Icon from 'react-native-vector-icons/Ionicons';
+import axios from 'axios'
 
 const OrganizersScreen = () => {
-    const { navigate, goBack } = useNavigation()
+    const { navigate } = useNavigation()
+    const [organizers, setOrganizers] = useState([])
+    const [loading, setLoading] = useState(false)
+
+    useEffect(() => {
+        setLoading(true)
+        axios
+            .get('/api/users')
+            .then(res => {
+                setOrganizers(res.data.users.filter((user) => {
+                    return user.isOrganizer === true
+                }).map((organizer) => {
+                    return { ...organizer, selected: false }
+                }))
+            })
+            .catch(err => console.log(err))
+            .finally(() => setLoading(false))
+    }, [])
+    console.log({ organizers })
+
+    const organizerHandler = (item) => {
+        setOrganizers(organizers.map((organizer) => {
+            if (organizer._id === item._id) {
+                return {
+                    ...organizer,
+                    selected: true,
+                }
+            }
+            return {
+                ...organizer,
+                selected: false,
+            }
+        }))
+    }
+
     return (
         <View style={styles.container}>
             <View style={styles.header}>
                 <Text style={styles.headerText}>اختر منظم مناسبتك</Text>
                 <Text style={styles.headerText2}>يمكنك الإطلاع على تفاصيل المنظم من خلال النقر عليه لعرض ملفه الشخصي واعتماده للإنتقال للخطوة الأخيرة.</Text>
             </View>
-            <FlatList
-                data={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]}
-                renderItem={({ item }) => (
-                    <TouchableOpacity style={styles.package}
-                        onPress={() => navigate('OrganizerProfileScreen')}>
-                        <Image source={require('../../../assets/images/slide.png')} style={styles.image} />
-                        <Text style={styles.text}>العالمية للمناسبات</Text>
-                        <Icon name='chevron-back' size={22} color={colors.gray[500]} />
-                    </TouchableOpacity>
-                )}
-                showsVerticalScrollIndicator={false}
-                keyExtractor={item => item.toString()}
-            />
+            {loading ? <View style={styles.loading}>
+                <ActivityIndicator size="large" color={colors.primary.main} />
+            </View> :
+                <FlatList
+                    data={organizers}
+                    renderItem={({ item }) => (
+                        <TouchableOpacity style={[styles.package, item.selected && { backgroundColor: colors.primary.BG }]}
+                            onPress={() => organizerHandler(item)}>
+                            <Image source={require('../../../assets/images/slide.png')} style={styles.image} />
+                            <Text style={styles.text}>{item.name}</Text>
+                            <TouchableOpacity style={styles.icon}
+                                onPress={() => navigate('OrganizerProfileScreen')}>
+                                <Icon name='chevron-back' size={22} color={colors.gray[500]} />
+                            </TouchableOpacity>
+                        </TouchableOpacity>
+                    )}
+                    showsVerticalScrollIndicator={false}
+                    keyExtractor={item => item._id}
+                />}
+            <Button title='اعتماد المنظم' onPress={() => navigate('SubmitEventScreen')}
+                titleStyle={styles.nextButtonText}
+                buttonStyle={styles.nextButton} />
         </View>
     )
 }
@@ -37,6 +81,11 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: colors.common.white,
         padding: 20,
+    },
+    loading: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
     },
     headerText: {
         ...typography.S.semibold,
@@ -61,21 +110,6 @@ const styles = StyleSheet.create({
         color: colors.common.white,
         ...typography.M.medium,
         lineHeight: 28,
-    },
-    packagee: {
-        backgroundColor: colors.common.white,
-        width: '100%',
-        height: 75,
-        marginVertical: 5,
-        borderRadius: 10,
-        padding: 10,
-        borderWidth: 1,
-        borderColor: colors.primary.assist,
-        elevation: 2
-    },
-    packageTitle: {
-        ...typography.M.medium,
-        color: colors.primary.main,
     },
     package: {
         flexDirection: 'row',
@@ -103,7 +137,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: colors.common.white,
         borderWidth: 1,
-        borderColor: colors.primary.main,
+        borderColor: colors.primary.assist,
     },
     text: {
         ...typography.M.regular,
@@ -111,7 +145,7 @@ const styles = StyleSheet.create({
         flex: 1,
         textAlign: 'left',
         marginLeft: 16,
-        lineHeight: 35
+        lineHeight: 30,
     },
     image: {
         width: 30,

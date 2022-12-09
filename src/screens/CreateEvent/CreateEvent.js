@@ -1,5 +1,5 @@
 import { View, Text, TouchableWithoutFeedback, Keyboard, ScrollView } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react'
 import styles from './styles'
 import { useNavigation } from '@react-navigation/native'
 import { Button, DropDown, HeaderScreen, InputField } from '../../components'
@@ -17,13 +17,20 @@ const dropDownEventType = [
 const CreateEvent = () => {
   const { goBack, canGoBack, navigate } = useNavigation()
   const { appSettings } = useAppSettingsContext()
+  const [ eventData, setEventData ] = useState({})
+
   const formik = useFormik({
     initialValues: {
       type: '',
       maxParticipants: 0,
     },
-    onSubmit: values => navigate('PackagesScreen'),
+    onSubmit: values => {
+      setEventData(values)
+      navigate('PackagesScreen', { eventData })
+    },
   })
+
+  console.log('eventData', eventData)
 
   const goBackHandler = () => {
     goBack()
