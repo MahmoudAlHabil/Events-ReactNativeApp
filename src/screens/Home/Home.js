@@ -132,8 +132,6 @@ const Home = () => {
             <Image source={require('../../../assets/images/slide.png')} style={styles.slide} />
             <Image source={require('../../../assets/images/slide2.png')} style={styles.slide} />
             <Image source={require('../../../assets/images/slide3.png')} style={styles.slide} />
-            <Image source={require('../../../assets/images/slide4.png')} style={styles.slide} />
-            <Image source={require('../../../assets/images/slide5.png')} style={styles.slide} />
           </Swiper>
         </View>
         <View style={styles.horizontalLine} />
