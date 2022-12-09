@@ -64,6 +64,35 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },
+    header: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
+        marginBottom: 0,
+        marginTop: 15,
+    },
+    headerLeft: {
+        paddingBottom: 0,
+    },
+    headerRight: {
+    },
+    badge: {
+        position: "absolute",
+        top: -1,
+        left: -3,
+        backgroundColor: colors.danger.main,
+        borderRadius: 10,
+        width: 15,
+        height: 15,
+        alignItems: "center",
+        justifyContent: "center",
+    },
+    badgeText: {
+        color: colors.common.white,
+        fontSize: 10,
+        lineHeight: 12,
+    }
+    
 })
 
 export default styles;

@@ -1,6 +1,8 @@
 import { View, Text, Image, FlatList, TouchableOpacity, StatusBar, ActivityIndicator } from 'react-native'
 import React, { Fragment, useEffect, useState } from 'react'
 import styles from './styles'
+import { NotificationsContextProvider, useNotificationsContext } from "../../context";
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useNavigation } from '@react-navigation/native'
 import Swiper from 'react-native-swiper'
 import { colors, icons } from '../../utils'
@@ -8,6 +10,7 @@ import { PublicEventItem } from '../../components'
 import MainSectionItem from './components/MainSectionItem'
 import { useAllEventsContext } from '../../context'
 import axios from 'axios'
+import { SvgXml } from 'react-native-svg'
 
 export const eventData = [
   {
@@ -90,6 +93,7 @@ export const eventData = [
     image: '',
     isInterested: true,
   },
+
 ]
 
 const Home = () => {
@@ -116,9 +120,27 @@ const Home = () => {
       })
       .finally(() => setLoading(false))
   }, [])
-
+  const { notifications } = useNotificationsContext()
+  const numberUnreadNotifications = notifications.filter(notification => notification.touched === false).length
   return (
     <View style={styles.container} >
+      <View  style={styles.header} >
+        <View style={styles.headerRight} >
+          <SvgXml xml={icons.logo} />
+        </View>
+        <TouchableOpacity activeOpacity={0.8} style={styles.headerLeft} onPress={() => navigate('Notifications')}>
+          <Ionicons name={'notifications-outline'} size={25}
+            color={colors.primary.main}
+          />
+          {numberUnreadNotifications > 0 && <View style={styles.badge} >
+            <Text style={styles.badgeText} >{numberUnreadNotifications}</Text>
+          </View>}
+        </TouchableOpacity>
+       
+      </View>
+       <View style={styles.horizontalLine}>
+         </View>
+
       <StatusBar backgroundColor={colors.common.white} barStyle="dark-content" />
       <View>
         <Text style={styles.welcomeText}>مرحبا بك، <Text style={styles.name}>محمود ماهر الهبيل</Text></Text>
@@ -129,8 +151,8 @@ const Home = () => {
             showsPagination={true}
             paginationStyle={styles.dot}
             autoplay={true}>
-            <Image source={require('../../../assets/images/slide.png')} style={styles.slide} />
             <Image source={require('../../../assets/images/slide2.png')} style={styles.slide} />
+            <Image source={require('../../../assets/images/slide.png')} style={styles.slide} />
             <Image source={require('../../../assets/images/slide3.png')} style={styles.slide} />
           </Swiper>
         </View>
