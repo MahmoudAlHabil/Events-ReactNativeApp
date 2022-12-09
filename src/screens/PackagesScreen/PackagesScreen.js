@@ -1,14 +1,17 @@
-import { FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React from 'react'
+import { ActivityIndicator, FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import React, { useEffect, useState } from 'react'
 import { useNavigation } from '@react-navigation/native'
 import { Button } from '../../components'
 import { colors, shadow, typography } from '../../utils'
 import { useBackHandler } from '@react-native-community/hooks'
 import { useAppSettingsContext } from '../../context'
+import axios from 'axios'
 
 const PackagesScreen = () => {
     const { goBack, canGoBack, navigate } = useNavigation()
     const { appSettings } = useAppSettingsContext()
+    const [loading, setLoading] = useState(false)
+    const [packages, setPackages] = useState([1])
 
     const goBackHandler = () => {
         goBack()
@@ -23,25 +26,41 @@ const PackagesScreen = () => {
         return false
     })
 
+    useEffect(() => {
+        setLoading(true)
+        axios
+            .get('/api/packages')
+            .then(res => {
+                console.log(res.data.packages)
+                setPackages(res.data.packages)
+            })
+            .catch(err => console.log(err))
+            .finally(() => setLoading(false))
+    }, [])
+
     return (
         <View style={styles.container}>
             <View style={styles.header}>
                 <Text style={styles.headerText}>اختر الحزمة المناسبة أو قم بتخصيص حزمة تناسبك</Text>
             </View>
-            <FlatList
-                data={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]}
-                renderItem={({ item }) => (
-                    <TouchableOpacity style={styles.package}
-                        onPress={() => navigate('PackageDetalisScreen')}>
-                        <Text style={styles.packageTitle}>باقة البداية</Text>
-                        <Text style={styles.packageDescription}>باقة البداية تحتوي على 10 مناسبات</Text>
-                        <Text style={styles.packagePrice}>100 ريال</Text>
-                    </TouchableOpacity>
-                )}
-                showsVerticalScrollIndicator={false}
-                keyExtractor={item => item.toString()}
-                numColumns={2}
-            />
+            {loading ?
+                <View style={styles.loading}>
+                    <ActivityIndicator size="large" color={colors.primary.main} />
+                </View> :
+                <FlatList
+                    data={packages}
+                    renderItem={({ item }) => (
+                        <TouchableOpacity style={styles.package}
+                            onPress={() => navigate('PackageDetalisScreen', { item })}>
+                            <Text style={styles.packageTitle}>باقة البداية</Text>
+                            <Text style={styles.packageDescription}>باقة البداية تحتوي على 10 مناسبات</Text>
+                            <Text style={styles.packagePrice}>100 ريال</Text>
+                        </TouchableOpacity>
+                    )}
+                    showsVerticalScrollIndicator={false}
+                    keyExtractor={item => item.toString()}
+                    numColumns={2}
+                />}
             <Button title='تخصيص حزمة' onPress={() => navigate('CustomPackageScreen')}
                 titleStyle={styles.nextButtonText}
                 buttonStyle={styles.nextButton} />

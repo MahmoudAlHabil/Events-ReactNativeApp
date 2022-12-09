@@ -1,74 +1,114 @@
 import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react'
 import { useNavigation } from '@react-navigation/native'
-import { Button } from '../../components'
+import { Button, DropDown, InputField } from '../../components'
 import { colors, typography } from '../../utils'
 import { useBackHandler } from '@react-native-community/hooks'
 import { useAppSettingsContext } from '../../context'
+import { useFormik } from 'formik'
+import DateTimePicker from '../CreateEvent/components/DateTimePicker'
+import CheckBox from '@react-native-community/checkbox';
 
 const SubmitEventScreen = () => {
     const { goBack, canGoBack, navigate } = useNavigation()
     const { appSettings } = useAppSettingsContext()
-
-    // const goBackHandler = () => {
-    //     goBack()
-    //     formik.resetForm()
-    //     appSettings.setVisibleTabBottom(true, 'createEvent')
-    // }
+    const [toggleCheckBox, setToggleCheckBox] = useState(false)
 
     useBackHandler(() => {
         if (canGoBack()) {
-            // goBackHandler()
             return true
         }
         return false
     })
 
+    const formik = useFormik({
+        initialValues: {
+            name: '',
+            description: '',
+            type: '',
+            date: '',
+            time: '',
+            location: '',
+            maxParticipants: 0,
+            privacy: '',
+            isPublic: false,
+        },
+        onSubmit: values => {
+            navigate('HomeStack')
+            appSettings.setVisibleTabBottom(true, 'createEvent')
+        },
+    })
+
     return (
-        <View>
-            <View style={styles.buttons}>
-                <Button title="إلغاء" onPress={goBack}
-                    buttonStyle={styles.cancelButton}
-                    titleStyle={styles.cancelButtonText} />
-                <Button title="التالي" onPress={() => {
-                    navigate('HomeStack')
-                    appSettings.setVisibleTabBottom(true, 'createEvent')
-                }}
-                    titleStyle={styles.nextButtonText}
-                    buttonStyle={styles.nextButton} />
+        <View style={styles.container}>
+            <InputField
+                placeholder="اسم المناسبة"
+                containerStyle={styles.input}
+                value={formik.values.name}
+                onChangeText={formik.handleChange('name')} />
+            <InputField
+                placeholder="أضف وصفاً"
+                containerStyle={styles.input}
+                value={formik.values.description}
+                multiline={true}
+                onChangeText={formik.handleChange('description')} />
+            <InputField
+                placeholder="المكان"
+                containerStyle={styles.input}
+                value={formik.values.location}
+                onChangeText={formik.handleChange('location')} />
+            <DateTimePicker type='date'
+                style={styles.input}
+                value={formik.values.date}
+                onChangeText={formik.handleChange('date')} />
+            <DateTimePicker type='time'
+                style={styles.input}
+                value={formik.values.time}
+                onChangeText={formik.handleChange('time')} />
+            <View style={styles.horizontalFlex}>
+                <CheckBox
+                    value={toggleCheckBox}
+                    onValueChange={(newValue) => setToggleCheckBox(newValue)}
+                />
+                <Text>مناسبة عامة</Text>
             </View>
+            <Button title="إنشاء المناسبة" onPress={formik.handleSubmit}
+                titleStyle={styles.nextButtonText}
+                buttonStyle={styles.nextButton} />
         </View>
     )
 }
 
+// <DropDown
+//     placeholder='اختر الخصوصية'
+//     items={dropDownPrivacyEvent}
+//     value={formik.values.privacy}
+//     style={styles.input} />
 export default SubmitEventScreen
 
 const styles = StyleSheet.create({
-    buttons: {
+    container: {
+        flex: 1,
+        backgroundColor: colors.common.white,
+        paddingHorizontal: 20,
+        paddingVertical: 20,
+    },
+    input: {
+        marginBottom: 10,
+    },
+    horizontalFlex: {
         flexDirection: 'row',
-        justifyContent: 'space-between',
-        marginTop: 20,
+        alignItems: 'center',
     },
     nextButton: {
         backgroundColor: colors.primary.main,
-        width: '47%',
+        width: '100%',
         height: 40,
+        marginTop: 10,
+        marginBottom: -10,
     },
     nextButtonText: {
         color: colors.common.white,
-        ...typography.M.medium,
-        lineHeight: 28,
-    },
-    cancelButton: {
-        marginEnd: 10,
-        width: '47%',
-        height: 40,
-        backgroundColor: colors.common.white,
-        borderWidth: 1,
-        borderColor: colors.primary.main,
-    },
-    cancelButtonText: {
-        color: colors.primary.main,
         ...typography.M.medium,
         lineHeight: 28,
     },

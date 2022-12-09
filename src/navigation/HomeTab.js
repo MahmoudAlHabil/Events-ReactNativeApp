@@ -33,7 +33,6 @@ const HomeTab = () => {
         AsyncStorage.getItem('userId').then((value) => {
             axios.get(`/api/users/${value}`)
                 .then((res) => {
-                    console.log(res.data)
                     setUserInfo(res.data)
                 })
         })

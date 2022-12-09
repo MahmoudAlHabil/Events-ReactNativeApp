@@ -35,7 +35,6 @@ const CreateAccountPassword = () => {
                 phoneNumber: userInfo.phoneNumber,
                 password: values.password,
             }).then((res) => {
-                console.log(res.data)
                 setAccessToken(res.data?.token)
                 setUserInfo(res.data)
                 AsyncStorage.setItem("accessToken", res.data?.token);

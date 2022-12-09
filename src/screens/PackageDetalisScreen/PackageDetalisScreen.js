@@ -1,30 +1,33 @@
 import { FlatList, StyleSheet, Text, View } from 'react-native'
 import React from 'react'
-import { useNavigation } from '@react-navigation/native'
+import { useNavigation, useRoute } from '@react-navigation/native'
 import { Button } from '../../components'
 import { colors, typography } from '../../utils'
 
 const PackageDetalisScreen = () => {
     const { navigate, goBack } = useNavigation()
+    const packageData = useRoute().params.item
 
     return (
         <View style={styles.container}>
-        <View style={styles.header}>
-            <Text style={styles.headerText}>محتوى الحزمة التي قمت بإخيارها</Text>
-        </View>
+            <View style={styles.header}>
+            <Text>{packageData.name}</Text>
+            <Text>{packageData.description}</Text>
+            <Text>{packageData.price}</Text>
+                <Text style={styles.headerText}>محتوى الحزمة التي قمت بإخيارها</Text>
+            </View>
             <FlatList
-                data={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]}
+                data={packageData.items}
                 renderItem={({ item }) => (
                     <View style={styles.package}>
-                        <Text style={styles.packageTitle}>باقة البداية</Text>
-                        <Text style={styles.packageDescription}>باقة البداية تحتوي على 10 مناسبات</Text>
-                        <Text style={styles.packagePrice}>100 ريال</Text>
+                        <Text style={styles.packageTitle}>{item.item.name}</Text>
+                        <Text style={styles.packageDescription}>{item.item.description}</Text>
                     </View>
                 )}
                 showsVerticalScrollIndicator={false}
-                keyExtractor={item => item.toString()}
+                keyExtractor={item => item._id.toString()}
             />
-            <Button title='اعتماد حزمة' onPress={() => navigate('OrganizersScreen')}
+            <Button title='اعتماد حزمة' onPress={() => navigate('SubmitEventScreen')}
                 titleStyle={styles.nextButtonText}
                 buttonStyle={styles.nextButton} />
         </View>
@@ -59,7 +62,6 @@ const styles = StyleSheet.create({
     package: {
         backgroundColor: colors.common.white,
         width: '100%',
-        height: 75,
         marginVertical: 5,
         borderRadius: 10,
         padding: 10,

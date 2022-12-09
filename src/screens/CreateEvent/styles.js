@@ -14,15 +14,16 @@ const styles = StyleSheet.create({
         ...typography.XL.bold,
         color: colors.gray[500],
         textAlign: 'center',
-        marginVertical: 16,
+        marginTop: 54,
+        marginBottom: 54,
     },
     input: {
-        marginBottom: 10,
+        marginBottom: 16,
     },
     buttons: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        marginTop: 20,
+        marginTop: 54,
     },
     nextButton: {
         backgroundColor: colors.primary.main,

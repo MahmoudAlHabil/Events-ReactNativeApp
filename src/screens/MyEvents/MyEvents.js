@@ -106,10 +106,9 @@ const MyEvents = () => {
   useEffect(() => {
     axios.get(`/api/events/user/${userInfo.id}`)
       .then(res => {
-        console.log(res.data)
-        setEvents(res.data)
+        setEvents(res.data.events)
       })
-      .catch(err => console.log(err))
+      .catch(err => console.log({err}))
       .finally(() => setLoading(false))
   }, [])
 

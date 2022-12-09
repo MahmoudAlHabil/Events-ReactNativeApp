@@ -109,7 +109,7 @@ const Home = () => {
     axios
       .get('/api/events')
       .then((res) => {
-        setAllEvents(res.data)
+        setAllEvents(res.data.events)
       })
       .catch((err) => {
         console.log(err)
