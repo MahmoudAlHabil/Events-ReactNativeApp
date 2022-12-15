@@ -22,7 +22,7 @@ const HomeStack = () => {
                     }} />
                 <Stack.Screen name="PublicEventsScreen" component={PublicEventsScreen} options={{
                     ...headerOptions,
-                    title: 'المناسبات العامة',
+                    title: 'المناسبات القادمة',
                 }} />
                 <Stack.Screen name="Notifications" component={Notifications}  options={{
                     ...headerOptions,

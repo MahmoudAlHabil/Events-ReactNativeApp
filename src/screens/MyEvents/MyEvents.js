@@ -121,9 +121,11 @@ const MyEvents = () => {
               <Text style={styles.totalNumber}> {events.length} </Text>
             </Text>
             <View style={styles.numberEvents}>
-              <NumberEvents data={events} status='rejected' />
-              <NumberEvents data={events} status='pending' />
-              <NumberEvents data={events} status='accepted' />
+              {
+              //   <NumberEvents data={events} status='rejected' />
+              // <NumberEvents data={events} status='pending' />
+              // <NumberEvents data={events} status='accepted' />
+            }
             </View>
           </View>
           <FlatList data={events}

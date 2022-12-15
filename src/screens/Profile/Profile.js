@@ -20,7 +20,7 @@ const Profile = () => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Image style={styles.image} source={require('../../../assets/images/personImage.png')} />
+        <Image style={styles.image} source={require('../../../assets/images/person.png')} />
         <Text style={styles.name}>{userInfo.name}</Text>
         <Text style={styles.phone}>{userInfo.email}</Text>
       </View>

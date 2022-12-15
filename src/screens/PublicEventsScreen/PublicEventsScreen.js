@@ -4,13 +4,14 @@ import { PublicEventItem } from '../../components'
 import { colors, typography } from '../../utils'
 import { useAllEventsContext, useInterestsContext } from '../../context'
 import { eventData } from '../Home/Home'
+import { useRoute } from '@react-navigation/native'
 
 const PublicEventsScreen = () => {
     const { allEvents } = useAllEventsContext()
 
     return (
         <View style={styles.container}>
-            {eventData.length > 0 ?
+            {allEvents.length > 0 ?
                 <FlatList
                     data={allEvents}
                     keyExtractor={(item, index) => (index.toString())}
@@ -18,7 +19,7 @@ const PublicEventsScreen = () => {
                     contentContainerStyle={styles.flatList}
                     showsVerticalScrollIndicator={false} />
                 : <View style={styles.noInterestsContainer}>
-                    <Text style={styles.noInterestsText}>لا توجد مناسبات عامة لعرضها</Text>
+                    <Text style={styles.noInterestsText}>لا توجد مناسبات قادمة لعرضها</Text>
                 </View>
             }
         </View>

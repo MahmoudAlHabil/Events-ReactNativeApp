@@ -6,7 +6,7 @@ import { useNavigation } from '@react-navigation/native'
 
 const EventItem = ({ item }) => {
     const { navigate } = useNavigation()
-    const { name, type, date, time, location, maxParticipants, public: isPublic, status } = item
+    const { name, type, date, time, address, maxParticipants, public: isPublic, status = 'accepted' } = item
     const statusName = status === 'accepted' ? 'مقبول' : status === 'pending' ? 'قيد الانتظار' : 'مرفوض'
     const statusColor = status === 'accepted' ? colors.success.main : status === 'pending' ? colors.warning.main : colors.danger.main
 
@@ -20,7 +20,7 @@ const EventItem = ({ item }) => {
                 <MaterialCommunityIcons name="square-edit-outline" size={30} color={colors.primary.main} />
             </TouchableOpacity>}
             <Text style={styles.name}>{name}</Text>
-            <Text style={styles.location}>{location}</Text>
+            <Text style={styles.address}>{address}</Text>
             <View style={styles.footer}>
                 <Text style={styles.type}>{isPublic ? 'مناسبة عامة' : 'مناسبة خاصة'}</Text>
                 <Text style={styles.date}>{date}     {time}</Text>
@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
         lineHeight: 24,
         marginTop: 10,
     },
-    location: {
+    address: {
         ...typography.S.regular,
         color: colors.gray[500],
         lineHeight: 24,

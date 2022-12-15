@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
         ...typography.S.semibold,
         color: colors.gray[500],
         marginVertical: 8,
-        marginTop: 20,
+        marginTop: 27,
     },
     name: {
         color: colors.gray[800],
@@ -68,11 +68,11 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
-        marginBottom: 0,
+        marginBottom: -5,
         marginTop: 15,
     },
     headerLeft: {
-        paddingBottom: 0,
+        marginTop: 6,
     },
     headerRight: {
     },

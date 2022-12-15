@@ -73,7 +73,7 @@ const SubmitEventScreen = () => {
                 />
                 <Text style={styles.checkBoxText}>مناسبة عامة</Text>
             </View>
-            <Button title="إنشاء المناسبة" onPress={formik.handleSubmit}
+            <Button title="تأكيد المناسبة" onPress={formik.handleSubmit}
                 titleStyle={styles.nextButtonText}
                 buttonStyle={styles.nextButton} />
         </View>

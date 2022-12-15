@@ -11,7 +11,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons'
 const PublicEventScreen = () => {
     const { navigate } = useNavigation()
     const { item } = useRoute().params
-    const { name, type, owner, day, date, time, location, interestedPeople, maxParticipants,
+    const { name, type, user, day, date, time, address, interestedUsers, maxParticipants, description,
         public: isPublic, status, image } = item
     const publicEvents = item
     const { interests, setInterests } = useInterestsContext()
@@ -41,15 +41,16 @@ const PublicEventScreen = () => {
 
     return (
         <ScrollView
+            style={style.container}
             showsVerticalScrollIndicator={false}>
-            <View style={style.container}>
-                <View style={style.imageWrapper}>
-                    <Image source={require('../../../assets/images/slide.png')} style={styles.image} />
-                </View>
+            <View style={style.imageWrapper}>
+                <Image source={image !== 'imageSrc' ? { uri: image } : require('../../../assets/images/placeholder.png')} style={style.image} />
+            </View>
+            <View style={style.contentBox}>
 
                 <View>
                     <Text style={style.name}>{name}</Text>
-                    <Text style={style.owner}>مناسبة عامة بواسطة {owner}</Text>
+                    <Text style={style.owner}>مناسبة عامة بواسطة {user.name}</Text>
                     <View style={style.buttonContainer}>
                         <Button
                             title="مهتم"
@@ -65,27 +66,29 @@ const PublicEventScreen = () => {
                         />
                     </View>
                     <IconWithText iconName={'calendar'} text={`${day}، ${date} الساعة ${time} ص`} />
-                    <IconWithText iconName={'location'} text={location} />
-                    <IconWithText iconName={'ios-checkbox'} text={`أشخاص مهتمون: ${interestedPeople}`} />
+                    <IconWithText iconName={'location'} text={address} />
+                    <IconWithText iconName={'ios-checkbox'} text={`أشخاص مهتمون: ${interestedUsers.length}`} />
 
                     <Text style={style.descriptionText}>الوصف</Text>
-                    <Text style={style.description}>ناسبة عامة بواسط ناسبة عامة بواسط ناسبة عامة بواسط ناسبة عامة بواسط ناسبة عامة بواسط</Text>
+                    <Text style={style.description}>{description}</Text>
 
                     <View style={styles.horizontalLine} />
                 </View>
-                <View style={style.publicEventTextWrapper}>
-                    <Text style={style.publicEventText}>المناسبات المقترحة</Text>
-                    <TouchableOpacity onPress={() => navigate('PublicEventsScreen')}>
-                        <Text style={style.seeAllText}>عرض الكل</Text>
-                    </TouchableOpacity>
-                </View>
-                <FlatList
-                    data={suggestedEvents.slice(0, 3)}
-                    renderItem={({ item }) => <PublicEventItem item={item} horizontal />}
-                    keyExtractor={(item, index) => index.toString()}
-                    horizontal
-                    showsHorizontalScrollIndicator={false}
-                />
+                {suggestedEvents.length > 0 &&
+                    <View><View style={style.publicEventTextWrapper}>
+                        <Text style={style.publicEventText}>المناسبات المقترحة</Text>
+                        <TouchableOpacity onPress={() => navigate('PublicEventsScreen', { suggestedEvents })}>
+                            <Text style={style.seeAllText}>عرض الكل</Text>
+                        </TouchableOpacity>
+                    </View>
+                        <FlatList
+                            data={suggestedEvents.slice(0, 3)}
+                            renderItem={({ item }) => <PublicEventItem item={item} horizontal />}
+                            keyExtractor={(item, index) => index.toString()}
+                            horizontal
+                            showsHorizontalScrollIndicator={false}
+                        />
+                    </View>}
             </View>
         </ScrollView>
     )
@@ -96,8 +99,7 @@ export default PublicEventScreen
 const styles = (isInterested) => StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#fff',
-        padding: 20,
+        backgroundColor: colors.common.white,
         paddingBottom: 60,
     },
     imageWrapper: {
@@ -106,8 +108,10 @@ const styles = (isInterested) => StyleSheet.create({
         overflow: "hidden",
         ...shadow,
         elevation: 2,
-        marginHorizontal: -20,
-        marginTop: -20,
+    },
+    contentBox: {
+        flex: 1,
+        paddingHorizontal: 20,
     },
     image: {
         width: '100%',

@@ -8,7 +8,7 @@ import { useInterestsContext } from '../context'
 import { useNavigation } from '@react-navigation/native'
 
 const PublicEventItem = ({ item, horizontal }) => {
-    const { name, type, owner, day, date, time, location, interestedPeople, maxParticipants,
+    const { name, type, user, day, date, time, location, interestedUsers, maxParticipants,
         public: isPublic, status, image } = item
     const { navigate } = useNavigation()
     const publicEvents = item
@@ -31,12 +31,12 @@ const PublicEventItem = ({ item, horizontal }) => {
             onPress={() => {
                 navigate('PublicEventScreen', { item })
             }}>
-            <Image source={require('../../assets/images/uni.jpg')} style={style.image} />
+            <Image source={require('../../assets/images/placeholder.png')} style={style.image} />
             <View style={style.infoContainer}>
                 <Text style={style.date}>{day}، {date} الساعة {time} ص</Text>
                 <Text style={style.name}>{name}</Text>
-                <Text style={style.owner}>{owner}</Text>
-                <Text style={style.interestedPeople}>أشخاص مهتمون: {interestedPeople}</Text>
+                <Text style={style.owner}>{user.name}</Text>
+                <Text style={style.interestedUsers}>أشخاص مهتمون: {interestedUsers.length}</Text>
                 <View style={style.buttonContainer}>
                     <Button
                         title="مهتم"
@@ -97,7 +97,7 @@ const styles = (isInterested, horizontal) => StyleSheet.create({
         color: colors.gray[500],
         lineHeight: 24,
     },
-    interestedPeople: {
+    interestedUsers: {
         ...typography.XS.regular,
         color: colors.gray[500],
         lineHeight: 24,
