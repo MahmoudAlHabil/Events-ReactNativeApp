@@ -16,7 +16,7 @@ export default NumberEvents
 
 const styles = (status) => StyleSheet.create({
     container: {
-        backgroundColor: status === 'accepted' ? colors.success.main : status === 'pending' ? colors.warning.main : colors.danger.main,
+        backgroundColor: status === 'accepted' ? colors.success.main : status === 'waiting' ? colors.warning.main : colors.danger.main,
         width: 30,
         height: 30,
         borderRadius: 20,

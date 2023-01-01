@@ -7,8 +7,8 @@ import { useNavigation } from '@react-navigation/native'
 const EventItem = ({ item }) => {
     const { navigate } = useNavigation()
     const { name, type, date, time, address, maxParticipants, public: isPublic, status = 'accepted' } = item
-    const statusName = status === 'accepted' ? 'مقبول' : status === 'pending' ? 'قيد الانتظار' : 'مرفوض'
-    const statusColor = status === 'accepted' ? colors.success.main : status === 'pending' ? colors.warning.main : colors.danger.main
+    const statusName = status === 'accepted' ? 'مقبول' : status === 'waiting' ? 'قيد الانتظار' : 'مرفوض'
+    const statusColor = status === 'accepted' ? colors.success.main : status === 'waiting' ? colors.warning.main : colors.danger.main
 
     return (
         <TouchableOpacity activeOpacity={0.8} style={styles.container}

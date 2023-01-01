@@ -1,6 +1,6 @@
-import { ActivityIndicator, FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { ActivityIndicator, FlatList, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
-import { useNavigation } from '@react-navigation/native'
+import { useNavigation, useRoute } from '@react-navigation/native'
 import { Button } from '../../components'
 import { colors, typography } from '../../utils'
 import axios from 'axios'
@@ -10,11 +10,12 @@ const CustomPackageScreen = () => {
     const [items, setItems] = useState([])
     const [loading, setLoading] = useState(false)
     const [selectedItems, setSelectedItem] = useState([])
+    const { eventData } = useRoute().params
 
     useEffect(() => {
         setLoading(true)
         axios
-            .get('/api/items')
+            .get(`/api/items?keyword=${eventData.type}`)
             .then(res => {
                 setItems(res.data.items.map((item) => {
                     return { ...item, selected: false }
@@ -26,13 +27,13 @@ const CustomPackageScreen = () => {
 
     const itemHandler = (item) => {
         item.selected = !item.selected
-        if (!selectedItems.includes(item)) {
-            setSelectedItem([...selectedItems, item])
+        if (!selectedItems.includes({ item: item._id, qty: 1 })) {
+            setSelectedItem([...selectedItems, { item: item._id, qty: 1 }])
         } else {
             setSelectedItem(selectedItems.filter((i) => i._id !== item._id))
         }
     }
-console.log({selectedItems})
+    console.log({ selectedItems })
     return (
         <View style={styles.container}>
             <Text style={styles.headerText}>اختر العناصر الملائمة لمناسبتك من خلال النقر عليها</Text>
@@ -43,18 +44,24 @@ console.log({selectedItems})
                     <FlatList
                         data={items}
                         renderItem={({ item }) => (
-                            <TouchableOpacity style={[styles.package, item.selected && { backgroundColor: colors.primary.BG }]}
+                            <TouchableOpacity style={[styles.item, item.selected && { backgroundColor: colors.primary.BG }]}
                                 onPress={() => itemHandler(item)} >
-                                <Text style={styles.packageTitle}>{item.name}</Text>
-                                <Text style={styles.packageDescription}>{item.description}</Text>
-                                <Text style={styles.packagePrice}>{item.price} شيكل</Text>
+                                <Image
+                                    source={{ uri: item.image }}
+                                    style={styles.itemImage}
+                                />
+                                <View style={styles.textItemWrapper}>
+                                    <Text style={styles.itemTitle}>{item.name}</Text>
+                                    <Text style={styles.itemDescription}>{item.description}</Text>
+                                    <Text style={styles.itemPrice}>{item.price} شيكل</Text>
+                                </View>
                             </TouchableOpacity>
                         )}
                         showsVerticalScrollIndicator={false}
                         keyExtractor={item => item._id.toString()}
                     />
                 </View>}
-            <Button title='اعتماد الحزمة' onPress={() => navigate('OrganizersScreen')}
+            <Button title='اعتماد الحزمة' onPress={() => navigate('OrganizersScreen', { eventData, items: selectedItems })}
                 titleStyle={styles.nextButtonText}
                 buttonStyle={styles.nextButton} />
         </View>
@@ -83,6 +90,40 @@ const styles = StyleSheet.create({
         color: colors.common.black,
         marginLeft: 5,
     },
+    item: {
+        flexDirection: 'row',
+        backgroundColor: colors.common.white,
+        width: '100%',
+        marginVertical: 5,
+        borderRadius: 10,
+        padding: 10,
+        borderWidth: 1,
+        borderColor: colors.primary.assist,
+        elevation: 2
+    },
+    itemImage: {
+        width: 100,
+        height: 100,
+        borderRadius: 10,
+        marginRight: 10,
+        resizeMode: 'cover',
+    },
+    textItemWrapper: {
+        flex: 1,
+        justifyContent: 'center',
+    },
+    itemTitle: {
+        ...typography.M.medium,
+        color: colors.primary.main,
+    },
+    itemDescription: {
+        ...typography.S.regular,
+        color: colors.common.black,
+    },
+    itemPrice: {
+        ...typography.S.regular,
+        color: colors.primary.main,
+    },
     nextButton: {
         backgroundColor: colors.primary.main,
         width: '100%',
@@ -94,28 +135,5 @@ const styles = StyleSheet.create({
         color: colors.common.white,
         ...typography.M.medium,
         lineHeight: 28,
-    },
-    package: {
-        backgroundColor: colors.common.white,
-        width: '100%',
-        marginVertical: 5,
-        borderRadius: 10,
-        padding: 10,
-        borderWidth: 1,
-        borderColor: colors.primary.assist,
-        elevation: 2
-    },
-    packageTitle: {
-        ...typography.M.medium,
-        color: colors.primary.main,
-    },
-    packageDescription: {
-        ...typography.S.regular,
-        color: colors.common.black,
-    },
-    packagePrice: {
-        ...typography.S.regular,
-        color: colors.primary.main,
-        marginBottom: -5,
     },
 })

@@ -1,7 +1,7 @@
 import { View, Text, Image, FlatList, TouchableOpacity, StatusBar, ActivityIndicator } from 'react-native'
-import React, { Fragment, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styles from './styles'
-import { NotificationsContextProvider, useNotificationsContext } from "../../context";
+import { useAppSettingsContext, useInterestsContext, useNotificationsContext, useUserInfoContext } from "../../context";
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useNavigation } from '@react-navigation/native'
 import Swiper from 'react-native-swiper'
@@ -12,117 +12,66 @@ import { useAllEventsContext } from '../../context'
 import axios from 'axios'
 import { SvgXml } from 'react-native-svg'
 
-export const eventData = [
-  {
-    id: 1,
-    name: 'حفل تكريم الطلاب الخريجين للعام الدراسي 2021-2022',
-    owner: 'كلية الهندسة - جامعة فلسطين',
-    type: 'مناسبة عامة',
-    day: 'السبت',
-    date: '05/11/2022',
-    time: '10:00',
-    location: 'القرية السياحية',
-    maxParticipants: 100,
-    interestedPeople: 52,
-    public: true,
-    status: 'accepted',
-    image: '',
-    isInterested: true,
-  },
-  {
-    id: 2,
-    name: 'حفل تكريم الطلاب الخريجين للعام الدراسي 2021-2022',
-    owner: 'كلية الهندسة - جامعة فلسطين',
-    type: 'مناسبة عامة',
-    day: 'السبت',
-    date: '05/11/2022',
-    time: '10:00',
-    location: 'القرية السياحية',
-    maxParticipants: 100,
-    interestedPeople: 52,
-    public: true,
-    status: 'accepted',
-    image: '',
-    isInterested: true,
-  },
-  {
-    id: 3,
-    name: 'حفل تكريم الطلاب الخريجين للعام الدراسي 2021-2022',
-    owner: 'كلية الهندسة - جامعة فلسطين',
-    type: 'مناسبة عامة',
-    day: 'السبت',
-    date: '05/11/2022',
-    time: '10:00',
-    location: 'القرية السياحية',
-    maxParticipants: 100,
-    interestedPeople: 52,
-    public: true,
-    status: 'accepted',
-    image: '',
-    isInterested: true,
-  },
-  {
-    id: 4,
-    name: 'حفل تكريم الطلاب الخريجين للعام الدراسي 2021-2022',
-    owner: 'كلية الهندسة - جامعة فلسطين',
-    type: 'مناسبة عامة',
-    day: 'السبت',
-    date: '05/11/2022',
-    time: '10:00',
-    location: 'القرية السياحية',
-    maxParticipants: 100,
-    interestedPeople: 52,
-    public: true,
-    status: 'accepted',
-    image: '',
-    isInterested: true,
-  },
-  {
-    id: 5,
-    name: 'حفل تكريم الطلاب الخريجين للعام الدراسي 2021-2022',
-    owner: 'كلية الهندسة - جامعة فلسطين',
-    type: 'مناسبة عامة',
-    day: 'السبت',
-    date: '05/11/2022',
-    time: '10:00',
-    location: 'القرية السياحية',
-    maxParticipants: 100,
-    interestedPeople: 52,
-    public: true,
-    status: 'accepted',
-    image: '',
-    isInterested: true,
-  },
-
-]
-
 const Home = () => {
   const { navigate } = useNavigation()
   const { allEvents, setAllEvents } = useAllEventsContext()
   const [loading, setLoading] = useState()
-  const { notifications } = useNotificationsContext()
-  const numberUnreadNotifications = notifications.filter(notification => notification.touched === false).length
-  
-  const headerList = (<FlatList
-    data={eventData}
-    ListHeaderComponent={headerList}
-    renderItem={({ item }) => <PublicEventItem item={item} />}
-    keyExtractor={(item, index) => index.toString()}
-    showsVerticalScrollIndicator={false}
-  />)
+  const [offers, setOffers] = useState([
+    { "image": "https://b.top4top.io/p_2534s8syi1.png" },
+    { "image": "https://k.top4top.io/p_2550lrywe1.png" },
+    { "image": "https://i.top4top.io/p_25415s9kk1.png" }])
+  const { notifications, dispatchNotifications } = useNotificationsContext()
+  const { userInfo } = useUserInfoContext()
+  const { appSettings } = useAppSettingsContext()
+  const { setInterests } = useInterestsContext()
+  const numberUnreadNotifications = notifications.filter(notification => notification?.isTouched === false).length
 
   useEffect(() => {
     setLoading(true)
     axios
-      .get('/api/events')
+      .get('/api/events?filter=public')
       .then((res) => {
-        setAllEvents(res.data.events)
+        setAllEvents(res.data.events) //.reverse()
+        axios
+          .get(`/api/notifications/user/${userInfo._id}`)
+          .then((res) => {
+            dispatchNotifications({ type: "SET_NOTIFICATIONS", payload: res.data.notifications }) //.reverse()
+          })
+          .catch((err) => {
+            console.log(err)
+          })
       })
       .catch((err) => {
         console.log(err)
       })
       .finally(() => setLoading(false))
+    axios
+      .get(`/api/events/user/${userInfo._id}/Interested`)
+      .then((res) => {
+        setInterests(res.data.events)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
   }, [])
+
+  console.log(userInfo._id)
+
+  useEffect(() => {
+    setLoading(true)
+    axios
+      .get('/api/packages?category=offers')
+      .then((res) => {
+        setOffers(res.data.packages)
+      })
+      .catch((err) => {
+        setOffers([])
+        console.log(err)
+      })
+      .finally(() => setLoading(false))
+  }, [])
+
+  // console.log(offers[2])
 
   return (
     <View style={styles.container} >
@@ -153,9 +102,24 @@ const Home = () => {
             showsPagination={true}
             paginationStyle={styles.dot}
             autoplay={true}>
-            <Image source={require('../../../assets/images/slide2.png')} style={styles.slide} />
-            <Image source={require('../../../assets/images/slide.png')} style={styles.slide} />
-            <Image source={require('../../../assets/images/slide3.png')} style={styles.slide} />
+            <TouchableOpacity onPress={() => {
+              appSettings.setVisibleTabBottom(false, 'createEvent')
+              navigate('PackageDetalisScreen', { item: offers[0] })
+            }}>
+              <Image source={offers[0]["image"] != undefined ? { uri: offers[0]["image"] } : require('../../../assets/images/slide2.png')} style={styles.slide} />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => {
+              appSettings.setVisibleTabBottom(false, 'createEvent')
+              navigate('PackageDetalisScreen', { item: offers[1] })
+            }}>
+              <Image source={offers[1]["image"] != undefined ? { uri: offers[1]["image"] } : require('../../../assets/images/slide.png')} style={styles.slide} />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => {
+              appSettings.setVisibleTabBottom(false, 'createEvent')
+              navigate('PackageDetalisScreen', { item: offers[2] })
+            }}>
+              <Image source={offers[2]["image"] != undefined ? { uri: offers[2]["image"] } : require('../../../assets/images/slide3.png')} style={styles.slide} />
+            </TouchableOpacity>
           </Swiper>
         </View>
         <View style={styles.horizontalLine} />
@@ -187,3 +151,7 @@ const Home = () => {
 }
 
 export default Home
+
+// <Image source={require('../../../assets/images/slide2.png')} style={styles.slide} />
+// <Image source={require('../../../assets/images/slide.png')} style={styles.slide} />
+// <Image source={require('../../../assets/images/slide3.png')} style={styles.slide} />

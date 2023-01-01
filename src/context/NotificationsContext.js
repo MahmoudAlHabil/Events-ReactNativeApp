@@ -5,59 +5,59 @@ const notificationsData = [
         id: 1,
         title: 'بيع و شراء جميع لوازم الأفراح والديكور جديده وقديمه',
         time: '30/10/2022',
-        touched: false,
+        isTouched: false,
     },
     {
         id: 2,
         title: 'بيع و شراده وقديمه',
         time: '29/10/2022',
-        touched: false,
+        isTouched: false,
     },
     {
         id: 3,
         title: 'بيع و شراء جميع لوازم الأفراح والديكور جديده وقديمه',
         time: '28/10/2022',
-        touched: false,
+        isTouched: false,
     },
     {
         id: 4,
         title: 'بيع و شرراح والديكور جديده وقديمه',
         time: '27/10/2022',
-        touched: false,
+        isTouched: false,
     },
     {
         id: 5,
         title: 'بيع و شراء جميع لوازم الأفراح وال وقديمه',
         time: '26/10/2022',
-        touched: true,
+        isTouched: true,
     },
     {
         id: 6,
         title: 'بجديده وقديمه',
         time: '25/10/2022',
-        touched: true,
+        isTouched: true,
     },
 ]
 
 const NotificationsContext = createContext({
-    notifications: notificationsData,
+    notifications: [],
     dispatchNotifications: () => { },
 });
 
 const notificationsReducer = (state, action) => {
     switch (action.type) {
         case "SET_NOTIFICATIONS":
-            return [...state, action.payload]
+            return action.payload
         case "READ_NOTIFICATION":
-            state[action.payload.id].touched = true
-            return [...state]
+            console.log(action.payload._id)
+            return state.map(item => item._id === action.payload._id ? { ...item, isTouched: true } : item)
         default:
             return state;
     }
 };
 
 export const NotificationsContextProvider = ({ children }) => {
-    const [notifications, dispatchNotifications] = useReducer(notificationsReducer, [...notificationsData]);
+    const [notifications, dispatchNotifications] = useReducer(notificationsReducer, []);
 
 
     return (

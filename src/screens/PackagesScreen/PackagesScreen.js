@@ -1,8 +1,8 @@
-import { ActivityIndicator, FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { ActivityIndicator, FlatList, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
-import { useNavigation } from '@react-navigation/native'
+import { useNavigation, useRoute } from '@react-navigation/native'
 import { Button } from '../../components'
-import { colors, shadow, typography } from '../../utils'
+import { colors, typography } from '../../utils'
 import { useBackHandler } from '@react-native-community/hooks'
 import { useAppSettingsContext } from '../../context'
 import axios from 'axios'
@@ -12,10 +12,13 @@ const PackagesScreen = () => {
     const { appSettings } = useAppSettingsContext()
     const [loading, setLoading] = useState(false)
     const [packages, setPackages] = useState([])
+    const { eventData, category } = useRoute().params
+
+    console.log('eventData', eventData)
 
     const goBackHandler = () => {
         goBack()
-        appSettings.setVisibleTabBottom(false, 'createEvent')
+        appSettings.setVisibleTabBottom(true, 'createEvent')
     }
 
     useBackHandler(() => {
@@ -29,7 +32,7 @@ const PackagesScreen = () => {
     useEffect(() => {
         setLoading(true)
         axios
-            .get('/api/packages')
+            .get(`/api/packages?category=${category}`)
             .then(res => {
                 setPackages(res.data.packages)
             })
@@ -50,17 +53,21 @@ const PackagesScreen = () => {
                     data={packages}
                     renderItem={({ item }) => (
                         <TouchableOpacity style={styles.package}
-                            onPress={() => navigate('PackageDetalisScreen', { item })}>
+                            onPress={() => navigate('PackageDetalisScreen', { eventData, item })}>
+                            <Image
+                                source={{ uri: item.image }}
+                                style={styles.packageImage}
+                            />
                             <Text style={styles.packageTitle}>{item.name}</Text>
-                            <Text style={styles.packageDescription}>{item.description}</Text>
+                            <Text style={styles.packageDescription}>{item.description.slice(0, 60)}...</Text>
                             <Text style={styles.packagePrice}>{item.price} شيكل</Text>
                         </TouchableOpacity>
                     )}
                     showsVerticalScrollIndicator={false}
-                    keyExtractor={item => item.toString()}
+                    keyExtractor={item => item._id.toString()}
                     numColumns={2}
                 />}
-            <Button title='تخصيص حزمة' onPress={() => navigate('CustomPackageScreen')}
+            <Button title='تخصيص حزمة' onPress={() => navigate('CustomPackageScreen', { eventData })}
                 titleStyle={styles.nextButtonText}
                 buttonStyle={styles.nextButton} />
         </View>
@@ -101,31 +108,34 @@ const styles = StyleSheet.create({
     package: {
         backgroundColor: colors.common.white,
         width: '47.7%',
-        height: 200,
+        height: 270,
         margin: 5,
         borderRadius: 10,
         padding: 10,
-        alignItems: 'center',
-        justifyContent: 'center',
         borderWidth: 1,
         borderColor: colors.primary.assist,
         elevation: 2
     },
+    packageImage: {
+        height: 120,
+        marginHorizontal: -11,
+        marginTop: -11,
+        borderTopLeftRadius: 10,
+        borderTopRightRadius: 10,
+        marginBottom: 10,
+    },
     packageTitle: {
         ...typography.M.medium,
         color: colors.primary.main,
-        textAlign: 'center',
     },
     packageDescription: {
-        ...typography.S.regular,
+        ...typography.XS.regular,
         color: colors.common.black,
-        textAlign: 'center',
-        marginTop: 10,
+        marginTop: 4,
     },
     packagePrice: {
         ...typography.M.medium,
         color: colors.primary.main,
-        textAlign: 'center',
         marginTop: 10,
     },
 })

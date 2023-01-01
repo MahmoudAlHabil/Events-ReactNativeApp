@@ -1,28 +1,37 @@
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react'
 import { colors, typography } from '../utils'
 import { Button } from '.'
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import Entypo from 'react-native-vector-icons/Entypo'
-import { useInterestsContext } from '../context'
+import { useInterestsContext, useUserInfoContext } from '../context'
 import { useNavigation } from '@react-navigation/native'
+import axios from 'axios'
 
 const PublicEventItem = ({ item, horizontal }) => {
     const { name, type, user, day, date, time, location, interestedUsers, maxParticipants,
         public: isPublic, status, image } = item
     const { navigate } = useNavigation()
+    const { userInfo } = useUserInfoContext()
     const publicEvents = item
     const { interests, setInterests } = useInterestsContext()
     const isInterested = interests.includes(publicEvents)
     const style = styles(isInterested, horizontal)
+    const [numberOfInterests, setNumberOfInterests] = useState(interestedUsers.length)
 
     const interestHandler = () => {
+        axios
+            .put(`/api/events/${item._id}/like`, { user: userInfo._id })
+            .then(res => console.log(res.data))
+            .catch(err => console.log(err))
         if (!isInterested) {
             setInterests([...interests, item]);
+            setNumberOfInterests(numberOfInterests + 1)
         }
         else {
             const newInterests = interests.filter(item => item.id !== publicEvents.id);
             setInterests(newInterests);
+            setNumberOfInterests(numberOfInterests - 1)
         }
     }
 
@@ -31,12 +40,12 @@ const PublicEventItem = ({ item, horizontal }) => {
             onPress={() => {
                 navigate('PublicEventScreen', { item })
             }}>
-            <Image source={require('../../assets/images/placeholder.png')} style={style.image} />
+            <Image source={{ uri: image }} style={style.image} />
             <View style={style.infoContainer}>
                 <Text style={style.date}>{day}، {date} الساعة {time} ص</Text>
                 <Text style={style.name}>{name}</Text>
                 <Text style={style.owner}>{user.name}</Text>
-                <Text style={style.interestedUsers}>أشخاص مهتمون: {interestedUsers.length}</Text>
+                <Text style={style.interestedUsers}>أشخاص مهتمون: {numberOfInterests}</Text>
                 <View style={style.buttonContainer}>
                     <Button
                         title="مهتم"

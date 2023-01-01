@@ -2,10 +2,12 @@ import { View, Text, TouchableWithoutFeedback, Keyboard, ScrollView } from 'reac
 import React, { useState } from 'react'
 import styles from './styles'
 import { useNavigation } from '@react-navigation/native'
-import { Button, DropDown, HeaderScreen, InputField } from '../../components'
+import { Button, DropDown, HeaderScreen, InputField, MessageInformation } from '../../components'
 import { useAppSettingsContext } from '../../context/AppSettingsContext'
 import { useBackHandler } from '@react-native-community/hooks'
 import { useFormik } from 'formik'
+import * as Yup from 'yup'
+import { icons } from '../../utils'
 
 const dropDownEventType = [
   { label: "عيد ميلاد", value: 'birthday' },
@@ -14,23 +16,30 @@ const dropDownEventType = [
   { label: "افتتاح محل", value: 'shopOpening' },
 ]
 
+const schema = Yup.object().shape({
+  // type: Yup.string().required('نوع الحدث مطلوب'),
+  maxParticipants: Yup.number().required('عدد المشاركين المتوقع مطلوب')
+})
+
 const CreateEvent = () => {
   const { goBack, canGoBack, navigate } = useNavigation()
   const { appSettings } = useAppSettingsContext()
-  const [ eventData, setEventData ] = useState({})
+  const [eventData, setEventData] = useState({})
+  const [dropDownValue, setDropDownValue] = useState('');
 
   const formik = useFormik({
     initialValues: {
       type: '',
-      maxParticipants: 0,
+      maxParticipants: '',
     },
+    validationSchema: schema,
     onSubmit: values => {
-      setEventData(values)
-      navigate('PackagesScreen', { eventData })
+      setEventData({ ...values, type: dropDownValue })
+      navigate('PackagesScreen', { eventData, category: dropDownValue })
     },
   })
 
-  console.log('eventData', eventData)
+  // console.log('eventData', eventData)
 
   const goBackHandler = () => {
     goBack()
@@ -56,14 +65,21 @@ const CreateEvent = () => {
             <DropDown
               placeholder='اختر نوع المناسبة'
               items={dropDownEventType}
-              value={formik.values.type}
+              value={dropDownValue}
+              setValue={setDropDownValue}
               style={styles.input} />
+            {formik.errors.type && formik.touched.type && (
+              <MessageInformation message={formik.errors.type} icon={icons.message.error} />
+            )}
             <InputField
               placeholder="عدد المشاركين المتوقع"
               containerStyle={styles.input}
               value={formik.values.maxParticipants}
               keyboardType='number-pad'
               onChangeText={formik.handleChange('maxParticipants')} />
+            {formik.errors.maxParticipants && formik.touched.maxParticipants && (
+              <MessageInformation message={formik.errors.maxParticipants} icon={icons.message.error} />
+            )}
             <View style={styles.buttons}>
               <Button title="إلغاء" onPress={goBackHandler}
                 buttonStyle={styles.cancelButton}

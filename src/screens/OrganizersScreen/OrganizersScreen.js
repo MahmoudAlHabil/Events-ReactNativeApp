@@ -1,6 +1,6 @@
 import { ActivityIndicator, FlatList, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
-import { useNavigation } from '@react-navigation/native'
+import { useNavigation, useRoute } from '@react-navigation/native'
 import { Button } from '../../components'
 import { colors, shadow, typography } from '../../utils'
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -10,6 +10,8 @@ const OrganizersScreen = () => {
     const { navigate } = useNavigation()
     const [organizers, setOrganizers] = useState([])
     const [loading, setLoading] = useState(false)
+    const { eventData, items } = useRoute().params
+    const selectedOrganizer = organizers.filter(item => item.selected == true)
 
     useEffect(() => {
         setLoading(true)
@@ -25,7 +27,7 @@ const OrganizersScreen = () => {
             .catch(err => console.log(err))
             .finally(() => setLoading(false))
     }, [])
-    console.log({ organizers })
+    console.log(selectedOrganizer[0]?._id)
 
     const organizerHandler = (item) => {
         setOrganizers(organizers.map((organizer) => {
@@ -59,7 +61,7 @@ const OrganizersScreen = () => {
                             <Image source={require('../../../assets/images/slide.png')} style={styles.image} />
                             <Text style={styles.text}>{item.name}</Text>
                             <TouchableOpacity style={styles.icon}
-                                onPress={() => navigate('OrganizerProfileScreen')}>
+                                onPress={() => { }}>
                                 <Icon name='chevron-back' size={22} color={colors.gray[500]} />
                             </TouchableOpacity>
                         </TouchableOpacity>
@@ -67,7 +69,8 @@ const OrganizersScreen = () => {
                     showsVerticalScrollIndicator={false}
                     keyExtractor={item => item._id}
                 />}
-            <Button title='اعتماد المنظم' onPress={() => navigate('SubmitEventScreen')}
+            <Button title='اعتماد المنظم'
+                onPress={() => navigate('SubmitEventScreen', { eventData, items, organizer: selectedOrganizer[0]?._id })}
                 titleStyle={styles.nextButtonText}
                 buttonStyle={styles.nextButton} />
         </View>

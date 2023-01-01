@@ -2,9 +2,7 @@ import { StyleSheet, Text, View, FlatList } from 'react-native'
 import React from 'react'
 import { PublicEventItem } from '../../components'
 import { colors, typography } from '../../utils'
-import { useAllEventsContext, useInterestsContext } from '../../context'
-import { eventData } from '../Home/Home'
-import { useRoute } from '@react-navigation/native'
+import { useAllEventsContext } from '../../context'
 
 const PublicEventsScreen = () => {
     const { allEvents } = useAllEventsContext()

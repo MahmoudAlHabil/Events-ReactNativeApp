@@ -36,7 +36,7 @@ const Login = () => {
                 .then((res) => {
                     setAccessToken(res.data?.token)
                     setUserInfo(res.data)
-                    AsyncStorage.setItem("accessToken", res.data?.token);
+                    AsyncStorage.setItem("accessToken", res.data?._id);
                     AsyncStorage.setItem("userId", res.data?._id);
                     replace('Home')
                 })

@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
         marginBottom: 54,
     },
     input: {
-        marginBottom: 16,
+        marginTop: 16,
     },
     buttons: {
         flexDirection: 'row',

@@ -1,5 +1,5 @@
 import { View, Text, TouchableOpacity } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import styles from './styles'
 import Icon from 'react-native-vector-icons/Ionicons'
 import Entypo from 'react-native-vector-icons/Entypo'
@@ -7,18 +7,22 @@ import { colors } from '../../../utils'
 import { useNotificationsContext } from '../../../context'
 import Modal from "react-native-modal"
 import { Button } from '../../../components'
-import { useNavigation } from '@react-navigation/native'
+import moment from 'moment/moment'
+import axios from 'axios'
 
 const NotificationItem = ({ item }) => {
-    const {navigate } = useNavigation()
-    const { title, time, touched } = item
-    const style = styles(touched)
+    const { title, createdAt, isTouched } = item
+    const style = styles(isTouched)
     const [modalVisible, setModalVisible] = useState(false)
     const { dispatchNotifications } = useNotificationsContext()
 
     const handleNotification = () => {
-        if (!touched) {
-            dispatchNotifications({ type: "READ_NOTIFICATION", payload: { id: item.id - 1 } })
+        if (!isTouched) {
+            dispatchNotifications({ type: "READ_NOTIFICATION", payload: { _id: item._id } })
+            axios
+                .put(`/api/notifications/${item._id}/touch`)
+                .then(res => console.log(res.data))
+                .catch(err => console.log(err))
         }
         setModalVisible(true)
     }
@@ -27,8 +31,8 @@ const NotificationItem = ({ item }) => {
         <TouchableOpacity style={style.container}
             onPress={handleNotification} activeOpacity={0.8}>
             <Icon name='notifications-circle' size={40} color={colors.primary.main} />
-            <Text style={style.title}>{title.length > 28 ? title.slice(0, 28) + '...' : title}</Text>
-            <Text style={style.time}>{time}</Text>
+            <Text style={style.title}>{title && title.length > 22 ? title.slice(0, 22) + '...' : title}</Text>
+            <Text style={style.time}>{moment(createdAt).format('DD/MM/YYYY')}</Text>
             <Modal isVisible={modalVisible}
                 onBackdropPress={() => setModalVisible(false)}
                 onSwipeComplete={() => setModalVisible(false)}

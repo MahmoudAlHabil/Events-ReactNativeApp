@@ -14,8 +14,8 @@ const MyEventScreen = () => {
     const publicEvents = item
     const { interests, setInterests } = useInterestsContext()
     const isInterested = interests.includes(publicEvents)
-    const statusName = status === 'accepted' ? 'مقبول' : status === 'pending' ? 'قيد الانتظار' : 'مرفوض'
-    const statusColor = status === 'accepted' ? colors.success.main : status === 'pending' ? colors.warning.main : colors.danger.main
+    const statusName = status === 'accepted' ? 'مقبول' : status === 'waiting' ? 'قيد الانتظار' : 'مرفوض'
+    const statusColor = status === 'accepted' ? colors.success.main : status === 'waiting' ? colors.warning.main : colors.danger.main
     const style = styles(isInterested)
 
     const IconWithText = ({ iconName, text }) => {
@@ -33,7 +33,7 @@ const MyEventScreen = () => {
                 <Image source={image !== 'imageSrc' ? { uri: image } : require('../../../assets/images/placeholder.png')} style={style.image} />
             </View>
             <View>
-                {status == 'pending' && <TouchableOpacity activeOpacity={0.7} style={style.edit}>
+                {status == 'waiting' && <TouchableOpacity activeOpacity={0.7} style={style.edit}>
                     <MaterialCommunityIcons name="square-edit-outline" size={22} color={colors.primary.main} />
                     <Text style={style.editText}>تعديل</Text>
                 </TouchableOpacity>}

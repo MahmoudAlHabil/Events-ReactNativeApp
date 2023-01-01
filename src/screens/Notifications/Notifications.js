@@ -9,13 +9,13 @@ const Notifications = () => {
   const { notifications } = useNotificationsContext()
 
   return (
-      <View style={styles.container}>
-        <FlatList
-          data={notifications}
-          renderItem={({ item }) => <NotificationItem item={item} />}
-          keyExtractor={(item, index) => index.toString()}
-          showsVerticalScrollIndicator={false} />
-      </View>
+    <View style={styles.container}>
+      <FlatList
+        data={notifications}
+        renderItem={({ item }) => <NotificationItem item={item} />}
+        keyExtractor={(item, index) => index.toString()}
+        showsVerticalScrollIndicator={false} />
+    </View>
   )
 }
 

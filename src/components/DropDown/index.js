@@ -5,9 +5,8 @@ import styles from './styles';
 import { SvgXml } from 'react-native-svg';
 import { colors, typography } from '../../utils';
 
-const DropDown = ({ label, items, style, placeholder, labelIcon }) => {
+const DropDown = ({ label, items, style, placeholder, labelIcon, value, setValue }) => {
   const [open, setOpen] = useState(false);
-  const [value, setValue] = useState(null);
 
   return (
     <View style={[styles.container, style]}>

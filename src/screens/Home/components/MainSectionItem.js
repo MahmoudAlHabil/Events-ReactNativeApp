@@ -1,5 +1,5 @@
 import { TouchableOpacity, StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react'
 import { SvgXml } from 'react-native-svg'
 import { colors, icons, typography } from '../../../utils'
 import { useNavigation } from '@react-navigation/native'
@@ -8,19 +8,21 @@ import { useAppSettingsContext } from '../../../context'
 const MainSectionItem = () => {
     const { navigate } = useNavigation()
     const { appSettings } = useAppSettingsContext()
+    const [eventData, setEventData] = useState({})
 
     return (
         <View>
             <View style={styles.itemsWrapper}>
                 <TouchableOpacity style={[styles.container, { backgroundColor: 'rgba(255, 109, 40, 0.15)' }]} onPress={() => {
-                    navigate('CreateEventStack')
+                    navigate('CreateEvent')
                     appSettings.setVisibleTabBottom(false, 'createEvent')
                 }}>
                     <SvgXml xml={icons.customEvent} />
                     <Text style={styles.name}>{'مناسبة مخصصة'}</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={[styles.container, { backgroundColor: 'rgba(120, 28, 104, 0.15)' }]} onPress={() => {
-                    navigate('CreateEventStack', { screen: 'PackagesScreen' })
+                    setEventData({ type: 'wedding' })
+                    navigate('PackagesScreen', { eventData, category: 'wedding' })
                     appSettings.setVisibleTabBottom(false, 'createEvent')
                 }}>
                     <SvgXml xml={icons.wedding} />
@@ -29,14 +31,16 @@ const MainSectionItem = () => {
             </View>
             <View style={[styles.itemsWrapper, { marginBottom: 0 }]}>
                 <TouchableOpacity style={[styles.container, { backgroundColor: 'rgba(252, 231, 0, 0.15)' }]} onPress={() => {
-                    navigate('PackagesScreen', { screen: 'PackagesScreen' })
+                    setEventData({ type: 'birthday' })
+                    navigate('PackagesScreen', { eventData, category: 'birthday' })
                     appSettings.setVisibleTabBottom(false, 'createEvent')
                 }}>
                     <SvgXml xml={icons.birthday} />
                     <Text style={styles.name}>{'حفل عيد ميلاد'}</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={[styles.container, { backgroundColor: 'rgba(0, 245, 255, 0.15)' }]} onPress={() => {
-                    navigate('PackagesScreen', { screen: 'PackagesScreen' })
+                    setEventData({ type: 'graduation' })
+                    navigate('PackagesScreen', { eventData, category: 'graduation' })
                     appSettings.setVisibleTabBottom(false, 'createEvent')
                 }}>
                     <SvgXml xml={icons.graduationCap} />

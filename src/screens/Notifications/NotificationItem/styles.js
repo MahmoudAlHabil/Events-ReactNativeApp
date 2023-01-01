@@ -1,7 +1,7 @@
 import { StyleSheet } from "react-native";
 import { colors, shadow, typography } from "../../../utils";
 
-const styles = (touched) => StyleSheet.create({
+const styles = (isTouched) => StyleSheet.create({
     container: {
         flexDirection: 'row',
         height: 75,
@@ -12,7 +12,7 @@ const styles = (touched) => StyleSheet.create({
         backgroundColor: 'white',
         paddingHorizontal: 10,
         marginBottom: 10,
-        backgroundColor: touched ? colors.common.white : colors.primary.light,
+        backgroundColor: isTouched ? colors.common.white : colors.primary.light,
     },
     title: {
         ...typography.S.regular,
