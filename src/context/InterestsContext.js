@@ -7,7 +7,7 @@ const InterestsContext = createContext({
 
 export const InterestsContextProvider = ({ children }) => {
     const [interests, setInterests] = useState([]);
-    console.log({interests})
+    
     return (
         <InterestsContext.Provider value={{ interests, setInterests }}>
             {children} 

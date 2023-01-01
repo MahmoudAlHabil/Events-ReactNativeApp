@@ -11,24 +11,27 @@ import CheckBox from '@react-native-community/checkbox';
 import axios from 'axios'
 import Icon from 'react-native-vector-icons/Ionicons'
 import Modal from "react-native-modal"
+import { imageTypeEvent } from '../../utils/helperFunctions'
+import moment from 'moment'
 
 const SubmitEventScreen = () => {
     const { goBack, canGoBack, navigate } = useNavigation()
     const { appSettings } = useAppSettingsContext()
     const { userInfo } = useUserInfoContext()
     const [toggleCheckBox, setToggleCheckBox] = useState(false)
-    const { eventData, items, organizer } = useRoute().params
+    const [date, setDate] = useState('')
+    const [time, setTime] = useState('')
+    const { type, eventPackage, items, organizer } = useRoute().params
     const [modalVisible, setModalVisible] = useState(false)
 
-    // console.log('eventData', eventData)
-
+    
     useBackHandler(() => {
         if (canGoBack()) {
             return true
         }
         return false
     })
-
+    
     const formik = useFormik({
         initialValues: {
             name: '',
@@ -43,18 +46,18 @@ const SubmitEventScreen = () => {
         },
         onSubmit: values => {
             axios
-                .post('/api/events', {
+            .post('/api/events', {
                     user: userInfo._id,
-                    organizer: organizer || null,
-                    name: values.name,
-                    address: values.location,
-                    type: eventData.type,
+                    ...(organizer && {organizer: organizer}),
+                    name: formik.values.name,
+                    address: formik.values.location,
+                    type: type,
                     isPublic: toggleCheckBox,
-                    description: values.description,
-                    image: "imageSrc",
+                    description: formik.values.description,
+                    image: 'imageSrc',
                     items: items || [],
-                    eventPackage: eventData.eventPackage,
-                    date: values.date
+                    eventPackage: eventPackage || null,
+                    date: moment(date + ' ' + time, ["YYYY-MM-DD h:mm A"]).add(2, 'h')
                 })
                 .then(res => {
                     console.log(res)
@@ -64,15 +67,15 @@ const SubmitEventScreen = () => {
                     console.log(err)
                 }).finally(() => {
                     formik.setSubmitting(false);
-                    formik.resetForm();
+                    // formik.resetForm();
                 })
-        },
+            },
     })
 
     return (
         <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-            <View style={styles.container}>
-                <Text style={styles.title}>أدخل باقي التفاصيل لإتمام إنشاء المناسبة</Text>
+        <View style={styles.container}>
+        <Text style={styles.title}>أدخل باقي التفاصيل لإتمام إنشاء المناسبة</Text>
                 <InputField
                     placeholder="اسم المناسبة"
                     containerStyle={styles.input}
@@ -91,12 +94,12 @@ const SubmitEventScreen = () => {
                     onChangeText={formik.handleChange('location')} />
                 <DateTimePicker type='date'
                     style={styles.input}
-                    value={formik.values.date}
-                    onChangeText={formik.handleChange('date')} />
+                    value={date}
+                    onChangeValue={setDate} />
                 <DateTimePicker type='time'
                     style={styles.input}
-                    value={formik.values.time}
-                    onChangeText={formik.handleChange('time')} />
+                    value={time}
+                    onChangeValue={setTime} />
                 <View style={styles.horizontalFlex}>
                     <CheckBox
                         value={toggleCheckBox}
@@ -117,7 +120,7 @@ const SubmitEventScreen = () => {
                 >
                     <View style={styles.contentModal}>
                         <Icon name='checkmark-done-circle' size={40} color={colors.primary.main} />
-                        <Text style={styles.modalText}>تم إنشاء مناسبتك بنجاح</Text>
+                        <Text style={styles.modalText}>تم إنشاء مناسبتك بنجاح، يمكنك الإطلاع على تفاصيل المناسبة من صفحة مناسباتي</Text>
                         <Button title="حسناً" onPress={() => {
                             setModalVisible(false)
                             navigate('HomeStack', { screen: 'Home' })

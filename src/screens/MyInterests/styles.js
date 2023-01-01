@@ -20,6 +20,11 @@ const styles = StyleSheet.create({
         marginTop: 20,
         paddingBottom: 75,
     },
+    loading: {
+        marginTop: 350,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
 })
 
 export default styles

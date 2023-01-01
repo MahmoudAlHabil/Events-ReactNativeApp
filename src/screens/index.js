@@ -21,7 +21,6 @@ import PackagesScreen from "./PackagesScreen/PackagesScreen";
 import PackageDetalisScreen from "./PackageDetalisScreen/PackageDetalisScreen";
 import CustomPackageScreen from "./CustomPackageScreen/CustomPackageScreen";
 import OrganizersScreen from "./OrganizersScreen/OrganizersScreen";
-import OrganizerProfileScreen from "./OrganizerProfileScreen/OrganizerProfileScreen";
 import SubmitEventScreen from "./SubmitEventScreen/SubmitEventScreen";
 
 export { 
@@ -46,6 +45,5 @@ export {
     PackageDetalisScreen,
     CustomPackageScreen,
     OrganizersScreen,
-    OrganizerProfileScreen,
     SubmitEventScreen,
 };

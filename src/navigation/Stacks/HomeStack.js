@@ -1,6 +1,6 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { NotificationsContextProvider, useAppSettingsContext, useNotificationsContext } from "../../context";
-import { CreateEvent, CustomPackageScreen, Home, Notifications, OrganizerProfileScreen, OrganizersScreen, PackageDetalisScreen, PackagesScreen, PublicEventScreen, PublicEventsScreen, SubmitEventScreen } from "../../screens";
+import { NotificationsContextProvider, useAppSettingsContext } from "../../context";
+import { CreateEvent, CustomPackageScreen, Home, Notifications, OrganizersScreen, PackageDetalisScreen, PackagesScreen, PublicEventScreen, PublicEventsScreen, SubmitEventScreen } from "../../screens";
 import { colors, icons } from "../../utils";
 import { useNavigation } from "@react-navigation/native";
 import { headerOptions } from "../HomeTab";
@@ -61,10 +61,6 @@ const HomeStack = () => {
                 <Stack.Screen name="OrganizersScreen" component={OrganizersScreen} options={{
                     ...headerOptions,
                     title: 'المنظمين',
-                }} />
-                <Stack.Screen name="OrganizerProfileScreen" component={OrganizerProfileScreen} options={{
-                    ...headerOptions,
-                    title: 'تفاصيل المنظم',
                 }} />
                 <Stack.Screen name="SubmitEventScreen" component={SubmitEventScreen} options={{
                     ...headerOptions,

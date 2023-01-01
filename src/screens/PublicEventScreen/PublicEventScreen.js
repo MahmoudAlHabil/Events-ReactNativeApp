@@ -7,6 +7,8 @@ import { colors, shadow, typography } from '../../utils'
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import Entypo from 'react-native-vector-icons/Entypo'
 import Ionicons from 'react-native-vector-icons/Ionicons'
+import { convertDayToArabic, convetTimeToArabic } from '../../utils/helperFunctions'
+import moment from 'moment'
 
 const PublicEventScreen = () => {
     const { navigate } = useNavigation()
@@ -41,54 +43,56 @@ const PublicEventScreen = () => {
 
     return (
         <ScrollView
-            style={style.container}
             showsVerticalScrollIndicator={false}>
-            <View style={style.imageWrapper}>
-                <Image source={image !== 'imageSrc' ? { uri: image } : require('../../../assets/images/placeholder.png')} style={style.image} />
-            </View>
-            <View style={style.contentBox}>
-
-                <View>
-                    <Text style={style.name}>{name}</Text>
-                    <Text style={style.owner}>مناسبة عامة بواسطة {user.name}</Text>
-                    <View style={style.buttonContainer}>
-                        <Button
-                            title="مهتم"
-                            buttonStyle={style.button}
-                            titleStyle={style.buttonText}
-                            onPress={interestHandler}
-                            icon={<AntDesign name="star" size={16}
-                                color={isInterested ? colors.primary.main : colors.common.black} />}
-                        />
-                        <Button
-                            buttonStyle={[style.button, style.shareButton]}
-                            icon={<Entypo name="share" size={16} color={colors.common.black} />}
-                        />
-                    </View>
-                    <IconWithText iconName={'calendar'} text={`${day}، ${date} الساعة ${time} ص`} />
-                    <IconWithText iconName={'location'} text={address} />
-                    <IconWithText iconName={'ios-checkbox'} text={`أشخاص مهتمون: ${interestedUsers.length}`} />
-
-                    <Text style={style.descriptionText}>الوصف</Text>
-                    <Text style={style.description}>{description}</Text>
-
-                    <View style={styles.horizontalLine} />
+            <View
+                style={style.container}>
+                <View style={style.imageWrapper}>
+                    <Image source={image !== 'imageSrc' ? { uri: image } : require('../../../assets/images/placeholder.png')} style={style.image} />
                 </View>
-                {suggestedEvents.length > 0 &&
-                    <View><View style={style.publicEventTextWrapper}>
-                        <Text style={style.publicEventText}>المناسبات المقترحة</Text>
-                        <TouchableOpacity onPress={() => navigate('PublicEventsScreen', { suggestedEvents })}>
-                            <Text style={style.seeAllText}>عرض الكل</Text>
-                        </TouchableOpacity>
+                <View style={style.contentBox}>
+
+                    <View>
+                        <Text style={style.name}>{name}</Text>
+                        <Text style={style.owner}>مناسبة عامة بواسطة {user.name}</Text>
+                        <View style={style.buttonContainer}>
+                            <Button
+                                title="مهتم"
+                                buttonStyle={style.button}
+                                titleStyle={style.buttonText}
+                                onPress={interestHandler}
+                                icon={<AntDesign name="star" size={16}
+                                    color={isInterested ? colors.primary.main : colors.common.black} />}
+                            />
+                            <Button
+                                buttonStyle={[style.button, style.shareButton]}
+                                icon={<Entypo name="share" size={16} color={colors.common.black} />}
+                            />
+                        </View>
+                        <IconWithText iconName={'calendar'} text={`${convertDayToArabic(moment(date).format('dddd'))}،${convetTimeToArabic(moment(date).subtract(2, 'h').format(' YYYY-MM-DD الساعة hh:mm A'))}`} />
+                        <IconWithText iconName={'location'} text={address} />
+                        <IconWithText iconName={'ios-checkbox'} text={`أشخاص مهتمون: ${interestedUsers.length}`} />
+
+                        <Text style={style.descriptionText}>الوصف</Text>
+                        <Text style={style.description}>{description}</Text>
+
+                        <View style={styles.horizontalLine} />
                     </View>
-                        <FlatList
-                            data={suggestedEvents.slice(0, 3)}
-                            renderItem={({ item }) => <PublicEventItem item={item} horizontal />}
-                            keyExtractor={(item, index) => index.toString()}
-                            horizontal
-                            showsHorizontalScrollIndicator={false}
-                        />
-                    </View>}
+                    {suggestedEvents.length > 0 &&
+                        <View><View style={style.publicEventTextWrapper}>
+                            <Text style={style.publicEventText}>المناسبات المقترحة</Text>
+                            <TouchableOpacity onPress={() => navigate('PublicEventsScreen', { suggestedEvents })}>
+                                <Text style={style.seeAllText}>عرض الكل</Text>
+                            </TouchableOpacity>
+                        </View>
+                            <FlatList
+                                data={suggestedEvents.slice(0, 3)}
+                                renderItem={({ item }) => <PublicEventItem item={item} horizontal />}
+                                keyExtractor={(item, index) => index.toString()}
+                                horizontal
+                                showsHorizontalScrollIndicator={false}
+                            />
+                        </View>}
+                </View>
             </View>
         </ScrollView>
     )

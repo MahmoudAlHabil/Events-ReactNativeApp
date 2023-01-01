@@ -3,12 +3,26 @@ import React from 'react'
 import { useNavigation, useRoute } from '@react-navigation/native'
 import { Button } from '../../components'
 import { colors, typography } from '../../utils'
+import { useAppSettingsContext } from '../../context'
+import { useBackHandler } from '@react-native-community/hooks'
 
 const PackageDetalisScreen = () => {
-    const { navigate, goBack } = useNavigation()
-    const { eventData, item: packageData } = useRoute().params
+    const { navigate, goBack, canGoBack } = useNavigation()
+    const { item: packageData, type } = useRoute().params
+    const { appSettings } = useAppSettingsContext()
 
-    console.log('eventData', eventData)
+    const goBackHandler = () => {
+        goBack()
+        appSettings.setVisibleTabBottom(false, 'createEvent')
+    }
+
+    useBackHandler(() => {
+        if (canGoBack()) {
+            goBackHandler()
+            return true
+        }
+        return false
+    })
 
     return (
         <View style={styles.container}>
@@ -36,7 +50,7 @@ const PackageDetalisScreen = () => {
                 showsVerticalScrollIndicator={false}
                 keyExtractor={item => item._id.toString()}
             />
-            <Button title='اعتماد الحزمة' onPress={() => navigate('SubmitEventScreen', { eventData, eventPackage: packageData._id })}
+            <Button title='اعتماد الحزمة' onPress={() => navigate('SubmitEventScreen', { type: type || packageData.category, eventPackage: packageData._id })}
                 titleStyle={styles.nextButtonText}
                 buttonStyle={styles.nextButton} />
         </View>

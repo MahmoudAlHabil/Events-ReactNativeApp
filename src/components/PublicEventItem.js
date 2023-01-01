@@ -7,15 +7,17 @@ import Entypo from 'react-native-vector-icons/Entypo'
 import { useInterestsContext, useUserInfoContext } from '../context'
 import { useNavigation } from '@react-navigation/native'
 import axios from 'axios'
+import moment from 'moment/moment'
+import { convertDayToArabic, convetTimeToArabic } from '../utils/helperFunctions'
 
 const PublicEventItem = ({ item, horizontal }) => {
-    const { name, type, user, day, date, time, location, interestedUsers, maxParticipants,
-        public: isPublic, status, image } = item
+    const { name, user, date, interestedUsers, image } = item
     const { navigate } = useNavigation()
     const { userInfo } = useUserInfoContext()
-    const publicEvents = item
+    const publicEvent = item
     const { interests, setInterests } = useInterestsContext()
-    const isInterested = interests.includes(publicEvents)
+    const interestsIDs = interests.map(item => item._id)
+    const isInterested = interestsIDs.includes(publicEvent._id)
     const style = styles(isInterested, horizontal)
     const [numberOfInterests, setNumberOfInterests] = useState(interestedUsers.length)
 
@@ -25,11 +27,11 @@ const PublicEventItem = ({ item, horizontal }) => {
             .then(res => console.log(res.data))
             .catch(err => console.log(err))
         if (!isInterested) {
-            setInterests([...interests, item]);
+            setInterests([item, ...interests]);
             setNumberOfInterests(numberOfInterests + 1)
         }
         else {
-            const newInterests = interests.filter(item => item.id !== publicEvents.id);
+            const newInterests = interests.filter(item => item._id !== publicEvent._id);
             setInterests(newInterests);
             setNumberOfInterests(numberOfInterests - 1)
         }
@@ -42,7 +44,9 @@ const PublicEventItem = ({ item, horizontal }) => {
             }}>
             <Image source={{ uri: image }} style={style.image} />
             <View style={style.infoContainer}>
-                <Text style={style.date}>{day}، {date} الساعة {time} ص</Text>
+                <Text style={style.date}>{convertDayToArabic(moment(date).format('dddd'))}،
+                {convetTimeToArabic(moment(date).subtract(2, 'h').format(' YYYY-MM-DD الساعة hh:mm A'))}
+                </Text>
                 <Text style={style.name}>{name}</Text>
                 <Text style={style.owner}>{user.name}</Text>
                 <Text style={style.interestedUsers}>أشخاص مهتمون: {numberOfInterests}</Text>
@@ -80,7 +84,7 @@ const styles = (isInterested, horizontal) => StyleSheet.create({
     },
     image: {
         width: '100.5%',
-        height: horizontal ? 100 : 150,
+        height: horizontal ? 125 : 150,
         borderTopRightRadius: 12,
         borderTopLeftRadius: 12,
         marginTop: -1,
@@ -94,6 +98,7 @@ const styles = (isInterested, horizontal) => StyleSheet.create({
         color: colors.gray[700],
         lineHeight: 24,
         marginBottom: horizontal ? -12 : -8,
+        textAlign: 'left',
     },
     name: {
         ...typography.S.semibold,

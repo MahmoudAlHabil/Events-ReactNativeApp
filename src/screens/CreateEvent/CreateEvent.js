@@ -24,7 +24,6 @@ const schema = Yup.object().shape({
 const CreateEvent = () => {
   const { goBack, canGoBack, navigate } = useNavigation()
   const { appSettings } = useAppSettingsContext()
-  const [eventData, setEventData] = useState({})
   const [dropDownValue, setDropDownValue] = useState('');
 
   const formik = useFormik({
@@ -34,12 +33,9 @@ const CreateEvent = () => {
     },
     validationSchema: schema,
     onSubmit: values => {
-      setEventData({ ...values, type: dropDownValue })
-      navigate('PackagesScreen', { eventData, category: dropDownValue })
+      navigate('PackagesScreen', { type: dropDownValue })
     },
   })
-
-  // console.log('eventData', eventData)
 
   const goBackHandler = () => {
     goBack()

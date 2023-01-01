@@ -21,8 +21,7 @@ const MainSectionItem = () => {
                     <Text style={styles.name}>{'مناسبة مخصصة'}</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={[styles.container, { backgroundColor: 'rgba(120, 28, 104, 0.15)' }]} onPress={() => {
-                    setEventData({ type: 'wedding' })
-                    navigate('PackagesScreen', { eventData, category: 'wedding' })
+                    navigate('PackagesScreen', { type: 'wedding' })
                     appSettings.setVisibleTabBottom(false, 'createEvent')
                 }}>
                     <SvgXml xml={icons.wedding} />
@@ -31,16 +30,14 @@ const MainSectionItem = () => {
             </View>
             <View style={[styles.itemsWrapper, { marginBottom: 0 }]}>
                 <TouchableOpacity style={[styles.container, { backgroundColor: 'rgba(252, 231, 0, 0.15)' }]} onPress={() => {
-                    setEventData({ type: 'birthday' })
-                    navigate('PackagesScreen', { eventData, category: 'birthday' })
+                    navigate('PackagesScreen', { type: 'birthday' })
                     appSettings.setVisibleTabBottom(false, 'createEvent')
                 }}>
                     <SvgXml xml={icons.birthday} />
                     <Text style={styles.name}>{'حفل عيد ميلاد'}</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={[styles.container, { backgroundColor: 'rgba(0, 245, 255, 0.15)' }]} onPress={() => {
-                    setEventData({ type: 'graduation' })
-                    navigate('PackagesScreen', { eventData, category: 'graduation' })
+                    navigate('PackagesScreen', { type: 'graduation' })
                     appSettings.setVisibleTabBottom(false, 'createEvent')
                 }}>
                     <SvgXml xml={icons.graduationCap} />

@@ -21,7 +21,7 @@ const NotificationItem = ({ item }) => {
             dispatchNotifications({ type: "READ_NOTIFICATION", payload: { _id: item._id } })
             axios
                 .put(`/api/notifications/${item._id}/touch`)
-                .then(res => console.log(res.data))
+                .then(res => {})
                 .catch(err => console.log(err))
         }
         setModalVisible(true)

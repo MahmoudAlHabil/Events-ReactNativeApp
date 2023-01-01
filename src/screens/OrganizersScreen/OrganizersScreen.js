@@ -10,7 +10,7 @@ const OrganizersScreen = () => {
     const { navigate } = useNavigation()
     const [organizers, setOrganizers] = useState([])
     const [loading, setLoading] = useState(false)
-    const { eventData, items } = useRoute().params
+    const { type, items } = useRoute().params
     const selectedOrganizer = organizers.filter(item => item.selected == true)
 
     useEffect(() => {
@@ -27,7 +27,6 @@ const OrganizersScreen = () => {
             .catch(err => console.log(err))
             .finally(() => setLoading(false))
     }, [])
-    console.log(selectedOrganizer[0]?._id)
 
     const organizerHandler = (item) => {
         setOrganizers(organizers.map((organizer) => {
@@ -70,7 +69,7 @@ const OrganizersScreen = () => {
                     keyExtractor={item => item._id}
                 />}
             <Button title='اعتماد المنظم'
-                onPress={() => navigate('SubmitEventScreen', { eventData, items, organizer: selectedOrganizer[0]?._id })}
+                onPress={() => navigate('SubmitEventScreen', { type, items, organizer: selectedOrganizer[0]?._id })}
                 titleStyle={styles.nextButtonText}
                 buttonStyle={styles.nextButton} />
         </View>

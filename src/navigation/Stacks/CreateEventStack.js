@@ -1,5 +1,5 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { CreateEvent, CustomPackageScreen, OrganizerProfileScreen, OrganizersScreen, PackageDetalisScreen, PackagesScreen, SubmitEventScreen } from "../../screens";
+import { CreateEvent, CustomPackageScreen, OrganizersScreen, PackageDetalisScreen, PackagesScreen, SubmitEventScreen } from "../../screens";
 import { headerOptions } from "../HomeTab";
 
 const Stack = createNativeStackNavigator();
@@ -24,10 +24,6 @@ const CreateEventStack = () => {
             <Stack.Screen name="OrganizersScreen" component={OrganizersScreen} options={{
                 ...headerOptions,
                 title: 'المنظمين',
-            }} />
-            <Stack.Screen name="OrganizerProfileScreen" component={OrganizerProfileScreen} options={{
-                ...headerOptions,
-                title: 'تفاصيل المنظم',
             }} />
             <Stack.Screen name="SubmitEventScreen" component={SubmitEventScreen} options={{
                 ...headerOptions,

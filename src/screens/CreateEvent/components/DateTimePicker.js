@@ -1,9 +1,11 @@
+import moment from "moment";
 import React, { useState } from "react";
 import { Button, Keyboard, StyleSheet, View } from "react-native";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { InputField } from "../../../components";
+import { convetTimeToArabic } from "../../../utils/helperFunctions";
 
-const DateTimePicker = ({ type, label, icon, style, onChangeText }) => {
+const DateTimePicker = ({ type, label, icon, style, onChangeValue, value }) => {
     const [dateOrTime, setDateOrTime] = useState();
     const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
 
@@ -18,9 +20,9 @@ const DateTimePicker = ({ type, label, icon, style, onChangeText }) => {
 
     const handleConfirm = (date) => {
         if (type === "date") {
-            setDateOrTime(date.toLocaleDateString());
+            onChangeValue(moment(date).format('YYYY-MM-DD'));
         } else {    // type === "time"  
-            setDateOrTime(date.toLocaleTimeString('ar-US', { hour: 'numeric', minute: 'numeric', hour12: true }));
+            onChangeValue(moment(date).format('h:mm A'));
         }
         hideDatePicker();
     };
@@ -32,8 +34,8 @@ const DateTimePicker = ({ type, label, icon, style, onChangeText }) => {
                 placeholder={type === "date" ? "التاريخ" : "الوقت"}
                 labelIcon={icon}
                 containerStyle={style}
-                value={dateOrTime}
-                onChangeText={onChangeText}
+                value={type === "date" ? value : convetTimeToArabic(value)}
+                onChangeText={onChangeValue}
                 onFocus={showDatePicker}
                 onBlur={hideDatePicker}
             />

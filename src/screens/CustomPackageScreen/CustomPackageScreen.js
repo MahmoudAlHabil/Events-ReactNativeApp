@@ -10,12 +10,12 @@ const CustomPackageScreen = () => {
     const [items, setItems] = useState([])
     const [loading, setLoading] = useState(false)
     const [selectedItems, setSelectedItem] = useState([])
-    const { eventData } = useRoute().params
+    const { type } = useRoute().params
 
     useEffect(() => {
         setLoading(true)
         axios
-            .get(`/api/items?keyword=${eventData.type}`)
+            .get(`/api/items?keyword=${type}`)
             .then(res => {
                 setItems(res.data.items.map((item) => {
                     return { ...item, selected: false }
@@ -33,7 +33,7 @@ const CustomPackageScreen = () => {
             setSelectedItem(selectedItems.filter((i) => i._id !== item._id))
         }
     }
-    console.log({ selectedItems })
+    
     return (
         <View style={styles.container}>
             <Text style={styles.headerText}>اختر العناصر الملائمة لمناسبتك من خلال النقر عليها</Text>
@@ -61,7 +61,7 @@ const CustomPackageScreen = () => {
                         keyExtractor={item => item._id.toString()}
                     />
                 </View>}
-            <Button title='اعتماد الحزمة' onPress={() => navigate('OrganizersScreen', { eventData, items: selectedItems })}
+            <Button title='اعتماد الحزمة' onPress={() => navigate('OrganizersScreen', { type, items: selectedItems })}
                 titleStyle={styles.nextButtonText}
                 buttonStyle={styles.nextButton} />
         </View>

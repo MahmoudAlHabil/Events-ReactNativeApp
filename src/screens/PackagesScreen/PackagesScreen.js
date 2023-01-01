@@ -12,9 +12,7 @@ const PackagesScreen = () => {
     const { appSettings } = useAppSettingsContext()
     const [loading, setLoading] = useState(false)
     const [packages, setPackages] = useState([])
-    const { eventData, category } = useRoute().params
-
-    console.log('eventData', eventData)
+    const { type } = useRoute().params
 
     const goBackHandler = () => {
         goBack()
@@ -32,7 +30,7 @@ const PackagesScreen = () => {
     useEffect(() => {
         setLoading(true)
         axios
-            .get(`/api/packages?category=${category}`)
+            .get(`/api/packages?category=${type}`)
             .then(res => {
                 setPackages(res.data.packages)
             })
@@ -53,7 +51,7 @@ const PackagesScreen = () => {
                     data={packages}
                     renderItem={({ item }) => (
                         <TouchableOpacity style={styles.package}
-                            onPress={() => navigate('PackageDetalisScreen', { eventData, item })}>
+                            onPress={() => navigate('PackageDetalisScreen', { item, type })}>
                             <Image
                                 source={{ uri: item.image }}
                                 style={styles.packageImage}
@@ -67,7 +65,7 @@ const PackagesScreen = () => {
                     keyExtractor={item => item._id.toString()}
                     numColumns={2}
                 />}
-            <Button title='تخصيص حزمة' onPress={() => navigate('CustomPackageScreen', { eventData })}
+            <Button title='تخصيص حزمة' onPress={() => navigate('CustomPackageScreen', { type })}
                 titleStyle={styles.nextButtonText}
                 buttonStyle={styles.nextButton} />
         </View>

@@ -49,7 +49,6 @@ const notificationsReducer = (state, action) => {
         case "SET_NOTIFICATIONS":
             return action.payload
         case "READ_NOTIFICATION":
-            console.log(action.payload._id)
             return state.map(item => item._id === action.payload._id ? { ...item, isTouched: true } : item)
         default:
             return state;

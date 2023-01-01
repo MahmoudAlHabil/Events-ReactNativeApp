@@ -3,10 +3,12 @@ import React from 'react'
 import { colors, typography } from '../../../utils'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import { useNavigation } from '@react-navigation/native'
+import moment from 'moment'
+import { convetTimeToArabic } from '../../../utils/helperFunctions'
 
 const EventItem = ({ item }) => {
     const { navigate } = useNavigation()
-    const { name, type, date, time, address, maxParticipants, public: isPublic, status = 'accepted' } = item
+    const { name, type, date, time, address, maxParticipants, isPublic, status = 'accepted' } = item
     const statusName = status === 'accepted' ? 'مقبول' : status === 'waiting' ? 'قيد الانتظار' : 'مرفوض'
     const statusColor = status === 'accepted' ? colors.success.main : status === 'waiting' ? colors.warning.main : colors.danger.main
 
@@ -23,7 +25,7 @@ const EventItem = ({ item }) => {
             <Text style={styles.address}>{address}</Text>
             <View style={styles.footer}>
                 <Text style={styles.type}>{isPublic ? 'مناسبة عامة' : 'مناسبة خاصة'}</Text>
-                <Text style={styles.date}>{date}     {time}</Text>
+                <Text style={styles.date}>{convetTimeToArabic(moment(date).subtract(2, 'h').format('YYYY-MM-DD   hh:mm A'))}</Text>
             </View>
         </TouchableOpacity>
     )
