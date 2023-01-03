@@ -44,7 +44,7 @@ const HomeTab = () => {
     }, [])
 
     const circleHandler = () => {
-        navigate('CreateEventStack')
+        navigate('CreateEventStack', { screen: 'CreateEvent', data: { type: '', maxParticipants: null} })
         appSettings.setVisibleTabBottom(false)
     }
 

@@ -6,7 +6,6 @@ import { Button, DropDown, HeaderScreen, InputField, MessageInformation } from '
 import { useAppSettingsContext } from '../../context/AppSettingsContext'
 import { useBackHandler } from '@react-native-community/hooks'
 import { useFormik } from 'formik'
-import * as Yup from 'yup'
 import { icons } from '../../utils'
 
 const dropDownEventType = [
@@ -15,11 +14,6 @@ const dropDownEventType = [
   { label: "حفلة تخرج", value: 'graduation' },
   { label: "افتتاح محل", value: 'shopOpening' },
 ]
-
-const schema = Yup.object().shape({
-  // type: Yup.string().required('نوع الحدث مطلوب'),
-  maxParticipants: Yup.number().required('عدد المشاركين المتوقع مطلوب')
-})
 
 const CreateEvent = () => {
   const { goBack, canGoBack, navigate } = useNavigation()
@@ -31,9 +25,12 @@ const CreateEvent = () => {
       type: '',
       maxParticipants: '',
     },
-    validationSchema: schema,
     onSubmit: values => {
       navigate('PackagesScreen', { type: dropDownValue })
+      setTimeout(() => {
+        formik.resetForm()
+        setDropDownValue(null)
+      }, 10000);
     },
   })
 
